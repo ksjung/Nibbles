@@ -5,9 +5,25 @@
     tools:context="com.cmu.watchdog.nibbles.dummy.ScheduleFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feed Now"
+        android:id="@+id/feedButton"
+        android:layout_gravity="center_horizontal|bottom"
+        android:clickable="true"
+        android:layout_marginBottom="30dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="71dp"
+        android:id="@+id/addButton"
+        android:layout_gravity="right|bottom"
+        android:clickable="true"
+        android:background="@drawable/ic_add_24dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="20dp"
+        android:backgroundTint="#00fd08" />
 
 </FrameLayout>
