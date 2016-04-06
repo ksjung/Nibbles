@@ -5,9 +5,21 @@
     tools:context="com.cmu.watchdog.nibbles.dummy.PetManagementFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="+"
+        android:textSize="40dp"
+        android:clickable="true"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="30dp"
+        android:background="@drawable/add_button"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/petList"
+        android:layout_gravity="left|top" />
 </FrameLayout>
