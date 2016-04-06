@@ -1,14 +1,21 @@
 package com.cmu.watchdog.nibbles.dummy;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TimePicker;
 
 import com.cmu.watchdog.nibbles.R;
+
+import java.util.Calendar;
 
 /**
  * Fragment that appears in the "content_frame", shows a planet
@@ -49,4 +56,5 @@ public class ScheduleFragment extends Fragment {
         });
         return view;
     }
+
 }

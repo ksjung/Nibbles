@@ -12,26 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Choose Time"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Choose Dates"
         android:id="@+id/textView3"
         android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="110dp" />
+        android:layout_marginTop="90dp"
+        android:textSize="25dp" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="311dp"
         android:layout_gravity="center"
-        android:layout_marginTop="55dp">
+        android:layout_marginTop="40dp">
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -111,13 +103,16 @@
         android:id="@+id/done"
         android:layout_gravity="center_horizontal|bottom" />
 
-    <TimePicker
-        android:layout_width="381dp"
-        android:layout_height="103dp"
-        android:id="@+id/timePicker"
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Time"
+        android:id="@+id/timeButton"
         android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="30dp"
-        android:timePickerMode="clock"
-        android:paddingBottom="0dp" />
+        android:background="#ffffff"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:clickable="true"
+        android:onClick="showDatePickerDialog" />
 
 </FrameLayout>
