@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
+import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
 
 import java.util.Calendar;
 
@@ -92,6 +93,16 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         } else if (id == R.id.nav_pets) {
             Fragment fragment = new PetManagementFragment();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        } else if (id == R.id.nav_activity) {
+            Fragment fragment = new ActivityFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
 
