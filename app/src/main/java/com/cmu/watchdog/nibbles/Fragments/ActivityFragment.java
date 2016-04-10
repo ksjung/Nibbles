@@ -13,11 +13,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
+import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
 
 
 
@@ -51,7 +57,7 @@ public class ActivityFragment extends Fragment {
                 if (position == 0) {
                     Log.d("here", "here");
                 }
-                series.resetData(new DataPoint[]{});
+                //series.resetData(new DataPoint[]{});
             }
 
             @Override
@@ -60,18 +66,38 @@ public class ActivityFragment extends Fragment {
             }
 
         });
+        Calendar calendar = Calendar.getInstance();
+        Date d1 = calendar.getTime();
+        Log.d("asdf", d1.toString());
+        calendar.add(Calendar.DATE, 1);
+        Date d2 = calendar.getTime();
+        Log.d("asdf", d2.toString());
+        calendar.add(Calendar.DATE, 1);
+        Date d3 = calendar.getTime();
 
-        /* Graph */
         GraphView graph = (GraphView) view.findViewById(R.id.graph);
 
-        series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
+        // you can directly pass Date objects to DataPoint-Constructor
+        // this will convert the Date to double via Date#getTime()
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(d1, 1),
+                new DataPoint(d2, 5),
+                new DataPoint(d3, 3)
         });
+        series.setTitle("Doug");
         graph.addSeries(series);
+
+        // set date label formatter
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+        // set manual x bounds to have nice steps
+        graph.getViewport().setMinX(d1.getTime());
+        graph.getViewport().setMaxX(d3.getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
         return view;
     }
