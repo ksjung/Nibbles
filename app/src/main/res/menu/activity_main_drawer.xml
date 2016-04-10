@@ -10,6 +10,10 @@
             android:id="@+id/nav_pets"
             android:icon="@drawable/ic_loyalty_24dp"
             android:title="My Pets" />
+        <item
+            android:id="@+id/nav_activity"
+            android:icon="@drawable/ic_loyalty_24dp"
+            android:title="Activity Monitor" />
     </group>
 
     <item android:title="Communicate">
