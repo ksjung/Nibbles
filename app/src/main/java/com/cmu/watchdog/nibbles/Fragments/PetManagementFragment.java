@@ -1,4 +1,4 @@
-package com.cmu.watchdog.nibbles.dummy;
+package com.cmu.watchdog.nibbles.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

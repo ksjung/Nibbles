@@ -3,8 +3,6 @@ package com.cmu.watchdog.nibbles;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -20,8 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TimePicker;
 
-import com.cmu.watchdog.nibbles.dummy.PetManagementFragment;
-import com.cmu.watchdog.nibbles.dummy.ScheduleFragment;
+import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
+import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 
 import java.util.Calendar;
 
