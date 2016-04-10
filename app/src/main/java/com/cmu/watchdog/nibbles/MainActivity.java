@@ -3,6 +3,7 @@ package com.cmu.watchdog.nibbles;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -24,12 +25,30 @@ import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
 
 import java.util.Calendar;
 
+import netP5.NetAddress;
+import oscP5.OscMessage;
+import oscP5.OscP5;
+import java.sql.*;
+import javax.sql.*;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+
+    String ip = "128.237.194.104"; // raspberry pi
+
+    OscP5 oscP5;
+    NetAddress remote;
+
+    int portThis = 12002;
+    int port = 12002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,7 +61,36 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        connectDB();
     }
+
+//    private void connectDB() {
+//        Connection conn = null;
+//        try
+//        {
+//            String url = "jdbc:mysql://localhost:3306/mydb"; // CHANGE THIS TO RPI DB
+//            Class.forName ("com.mysql.jdbc.Driver");
+//            conn = DriverManager.getConnection (url,"root"," ");
+//            System.out.println ("Database connection established");
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            if (conn != null)
+//            {
+//                try
+//                {
+//                    conn.close ();
+//                    System.out.println ("Database connection terminated");
+//                }
+//                catch (Exception e) { /* ignore close errors */ }
+//            }
+//        }
+//    }
 
     @Override
     public void onBackPressed() {
@@ -139,5 +187,15 @@ public class MainActivity extends AppCompatActivity
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void sendOscpMessage(String str) {
+        OscP5 oscP5 = new OscP5(this, portThis);
+        NetAddress remote = new NetAddress(ip, port);
+
+        String msg = str;
+        OscMessage dirMessage = new OscMessage("/msg");
+        dirMessage.add(msg);
+        oscP5.send(dirMessage, remote);
     }
 }

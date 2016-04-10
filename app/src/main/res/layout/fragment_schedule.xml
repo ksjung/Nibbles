@@ -13,7 +13,9 @@
         android:id="@+id/feedButton"
         android:layout_gravity="center_horizontal|bottom"
         android:src="@mipmap/feednow_button"
-        android:contextClickable="false" />
+        android:contextClickable="false"
+        android:contentDescription="feedButton"
+        android:nestedScrollingEnabled="false" />
 
     <Button
         android:id="@+id/addButton"
