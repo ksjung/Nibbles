@@ -6,15 +6,14 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <Button
-        android:layout_width="wrap_content"
+
+    <ImageButton
+        android:layout_width="705dp"
         android:layout_height="wrap_content"
-        android:text="Feed Now"
         android:id="@+id/feedButton"
         android:layout_gravity="center_horizontal|bottom"
-        android:clickable="true"
-        android:layout_marginBottom="30dp" />
-
+        android:src="@mipmap/feednow_button"
+        android:contextClickable="false" />
 
     <Button
         android:id="@+id/addButton"
@@ -23,8 +22,11 @@
         android:text="+"
         android:textSize="40dp"
         android:clickable="true"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="30dp"
-        android:background="@drawable/add_button"/>
+        android:layout_gravity="right|bottom"
+        android:background="@drawable/add_button"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="90dp" />
 
 </FrameLayout>
