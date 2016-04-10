@@ -23,7 +23,7 @@
  * @version		0.9.9
  */
 
-package netP5;
+package com.cmu.watchdog.nibbles.netP5;
 
 import java.io.IOException;
 
