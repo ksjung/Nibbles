@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import com.cmu.watchdog.nibbles.R;
 
 /**
- * Created by Helen on 4/5/16.
+ * Created by Alice on 4/5/16.
  */
 public class AddPetFragment extends Fragment {
 
