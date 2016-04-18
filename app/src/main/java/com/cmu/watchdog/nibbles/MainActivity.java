@@ -2,10 +2,13 @@ package com.cmu.watchdog.nibbles;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,8 +42,8 @@ public class MainActivity extends AppCompatActivity
     OscP5 oscP5;
     NetAddress remote;
 
-    int portThis = 12002;
-    int port = 12002;
+    int portThis = 12003;
+    int port = 12003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        NetMan nm = new NetMan();
+        nm.connect();
 
 //        connectDB();
     }
@@ -198,4 +204,5 @@ public class MainActivity extends AppCompatActivity
         dirMessage.add(msg);
         oscP5.send(dirMessage, remote);
     }
+
 }
