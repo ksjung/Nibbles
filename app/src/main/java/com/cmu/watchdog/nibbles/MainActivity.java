@@ -37,13 +37,15 @@ import javax.sql.*;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    String ip = "128.237.194.104"; // raspberry pi
+    String ip = "128.237.236.199"; // raspberry pi
 
     OscP5 oscP5;
     NetAddress remote;
 
     int portThis = 12003;
     int port = 12003;
+
+    private Connection conn = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,35 +70,32 @@ public class MainActivity extends AppCompatActivity
         NetMan nm = new NetMan();
         nm.connect();
 
-//        connectDB();
+        connectDB();
     }
 
-//    private void connectDB() {
+    private void connectDB() {
 //        Connection conn = null;
-//        try
-//        {
-//            String url = "jdbc:mysql://localhost:3306/mydb"; // CHANGE THIS TO RPI DB
-//            Class.forName ("com.mysql.jdbc.Driver");
-//            conn = DriverManager.getConnection (url,"root"," ");
-//            System.out.println ("Database connection established");
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//        finally
-//        {
-//            if (conn != null)
-//            {
-//                try
-//                {
-//                    conn.close ();
-//                    System.out.println ("Database connection terminated");
-//                }
-//                catch (Exception e) { /* ignore close errors */ }
+        try {
+            String url = "jdbc:mysql://" + ip + ":3306"; // CHANGE THIS TO RPI DB
+            System.out.println("=============================" + url);
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(url, "root", "watchdog");
+            System.out.println("------------------------------Database connection established");
+        } catch (SQLException e) {
+            System.out.println("********SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+//            if (conn != null) {
+//                try {
+//                    conn.close();
+//                    System.out.println("Database connection terminated");
+//                } catch (Exception e) { /* ignore close errors */ }
 //            }
-//        }
-//    }
+        }
+    }
 
     @Override
     public void onBackPressed() {
