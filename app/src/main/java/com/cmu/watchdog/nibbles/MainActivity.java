@@ -25,13 +25,18 @@ import android.widget.TimePicker;
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
+import com.cmu.watchdog.nibbles.models.Device;
+import com.cmu.watchdog.nibbles.models.Pet;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import netP5.NetAddress;
 import oscP5.OscMessage;
 import oscP5.OscP5;
 import java.sql.*;
+import java.util.List;
+
 import javax.sql.*;
 
 public class MainActivity extends AppCompatActivity
@@ -76,10 +81,10 @@ public class MainActivity extends AppCompatActivity
     private void connectDB() {
 //        Connection conn = null;
         try {
-            String url = "jdbc:mysql://" + ip + ":3306"; // CHANGE THIS TO RPI DB
+            String url = "jdbc:mysql://" + ip + ":3306/watchdog"; // CHANGE THIS TO RPI DB
             System.out.println("=============================" + url);
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, "root", "watchdog");
+            conn = DriverManager.getConnection(url, "watchdog", "watchdog");
             System.out.println("------------------------------Database connection established");
         } catch (SQLException e) {
             System.out.println("********SQLException: " + e.getMessage());
@@ -94,6 +99,32 @@ public class MainActivity extends AppCompatActivity
 //                    System.out.println("Database connection terminated");
 //                } catch (Exception e) { /* ignore close errors */ }
 //            }
+        }
+
+        String query = "SELECT * FROM watchdog.pet";
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                System.out.println("======================================");
+//                System.out.println(rs);
+//            System.out.println(rs.si)
+                String name = rs.getString("name");
+                System.out.println(name);
+                System.out.println("======================================");
+            }
+
+        }
+        catch (SQLException e ) {
+            System.out.println("***************************************");
+            System.out.println("SQL NOT WORKING");
+            System.out.println("***************************************");
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+//            if (stmt != null) { stmt.close(); }
         }
     }
 
@@ -204,4 +235,74 @@ public class MainActivity extends AppCompatActivity
         oscP5.send(dirMessage, remote);
     }
 
+    public List<Pet> getPets() throws SQLException {
+        List<Pet> pets = new ArrayList<Pet>();
+        String query = "SELECT * FROM watchdog.pet";
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+//                Pet(String name, String gender, String type, String breed, int age, int id)
+                String name = rs.getString("NAME");
+                String type = rs.getString("TYPE");
+                String gender = rs.getString("GENDER");
+                String breed = rs.getString("BREED");
+                int age = rs.getInt("AGE");
+                int id = rs.getInt("PET_ID");
+                Pet pet = new Pet(name, type, gender, breed, age, id);
+                pets.add(pet);
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return pets;
+    }
+
+    public List<Device> getDevices() throws  SQLException {
+        List<Device> devices = new ArrayList<Device>();
+        String query = "select * from watchdog.device";
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+//                Device(int device_id, String name, int pet_id)
+                int device_id = rs.getInt("DEVICE_ID");
+                String name = rs.getString("NAME");
+                int pet_id = rs.getInt("PET_ID");
+                Device device = new Device(device_id, name, pet_id);
+                devices.add(device);
+            }
+        }
+        catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return devices;
+    }
+
+    public void sendCommand(String query) throws  SQLException {
+
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query); // use 'executedUpdate' when inserting data into db
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return;
+    }
 }

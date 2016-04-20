@@ -13,9 +13,7 @@ import android.widget.ImageButton;
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 
-
-import netP5.*;
-import oscP5.*;
+import java.sql.SQLException;
 
 
 /**
@@ -24,14 +22,6 @@ import oscP5.*;
 public class ScheduleFragment extends Fragment {
     Fragment frag;
     FragmentTransaction fragTransaction;
-
-    String ip = "128.237.194.104"; // raspberry pi
-
-    OscP5 oscP5;
-    NetAddress remote;
-
-    int portThis = 12002;
-    int port = 12002;
 
     public ScheduleFragment() {
         // Empty constructor required for fragment subclasses
@@ -50,16 +40,23 @@ public class ScheduleFragment extends Fragment {
         feedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("hi im kljlkjljljlkhere", "bykljljkljljllklkjlkjljkljljljle");
-                OscP5 oscP5 = new OscP5(this, portThis);
-                NetAddress remote = new NetAddress(ip, port);
 
-                String msg = "on";
-                OscMessage dirMessage = new OscMessage("/msg");
-                dirMessage.add(msg);
-                oscP5.send(dirMessage, remote);
                 MainActivity activity = (MainActivity) getActivity();
-                activity.sendOscpMessage("ON FROM THE APP");
+
+                try {
+                    String query = "INSERT INTO watchdog.commands VALUES (null, 4, 'feed now', -1, null)";
+                    activity.sendCommand(query);
+                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    System.out.println("SENDING COMMAND");
+                    System.out.println(query);
+                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                } catch (SQLException e) {
+                    System.out.println("..................................");
+                    System.out.println("SQL EXCEPTION");
+                    System.out.println("..................................");
+                    e.printStackTrace();
+                }
+
                 frag = new FeedFragment();
                 fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
                 fragTransaction.commit();
@@ -71,6 +68,7 @@ public class ScheduleFragment extends Fragment {
         addScheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 frag = new AddScheduleFragment();
                 fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
                 fragTransaction.commit();
