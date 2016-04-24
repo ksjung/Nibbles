@@ -27,6 +27,7 @@ import android.widget.TimePicker;
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
+import com.cmu.watchdog.nibbles.Fragments.WebCamViewFragment;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
 
 //    String ip = "128.237.236.199"; // raspberry pi
 //    private String ip = "128.237.187.196"; // localhost
-    private String ip = "10.0.0.19";
+    private String ip = "128.237.219.92";
     private String database_name = "watchdog";
     private String username = "watchdog";
     private String password = "watchdog";
@@ -193,6 +194,16 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         } else if (id == R.id.nav_activity) {
             Fragment fragment = new ActivityFragment();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        } else if (id == R.id.nav_web_view) {
+            Fragment fragment = new WebCamViewFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
 
