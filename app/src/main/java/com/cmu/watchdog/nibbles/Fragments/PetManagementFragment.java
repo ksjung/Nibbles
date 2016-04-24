@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
@@ -22,6 +24,7 @@ public class PetManagementFragment extends Fragment {
 
     Fragment frag;
     FragmentTransaction fragTransaction;
+    List<Pet> pets;
 
     public PetManagementFragment() {
         // Empty constructor required for fragment subclasses
@@ -45,14 +48,24 @@ public class PetManagementFragment extends Fragment {
 
         MainActivity activity = (MainActivity) getActivity();
 
+        ListView listView = (ListView) view.findViewById(R.id.petsList);
         try {
-            List<Pet> pets = activity.getPets();
-            String ex = pets.get(0).getName();
-            addBtn.setText(ex);
-            System.out.println("******************* PET NAME = " + ex);
+            activity.setListView(listView);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return view;
     }
+
+//    private void setPetListView() {
+//        MainActivity activity = (MainActivity) getActivity();
+//        ListView listView = (ListView) activity.findViewById(R.id.petList);
+//        String[] petNames = new String[pets.size()];
+//        for (int i = 0; i < pets.size(); i++) {
+//            petNames[i] = pets.get(i).getName();
+//        }
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.fragment_petmanagement , android.R.id.petList , petNames);
+//    }
 }

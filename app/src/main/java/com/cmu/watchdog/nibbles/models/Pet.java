@@ -67,4 +67,9 @@ public class Pet {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Pet Name : " + name;
+    }
 }

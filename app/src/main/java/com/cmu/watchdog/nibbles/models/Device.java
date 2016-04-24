@@ -37,4 +37,9 @@ public class Device {
     public void setPet_id(int pet_id) {
         this.pet_id = pet_id;
     }
+
+    @Override
+    public String toString() {
+        return "Device Name : " + name + " == Device id :" + device_id;
+    }
 }
