@@ -26,6 +26,7 @@ import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
 import com.cmu.watchdog.nibbles.Fragments.WebCamViewFragment;
+import com.cmu.watchdog.nibbles.models.Command;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity
 
 //    String ip = "128.237.236.199"; // raspberry pi
 //    private String ip = "128.237.187.196"; // localhost
-    private String ip = "128.237.224.100";
+    private String ip = "128.237.219.92";
     private String database_name = "watchdog";
     private String username = "watchdog";
     private String password = "watchdog";
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
     private List<Pet> pets;
     private List<Device> devices;
+    private List<Command> commands;
 
     private Pet selectedPet;
     private Device selectedDevice;
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity
             System.out.println("------------------------------Database connection established");
             setDevices();
             setPets();
+            setCommands();
         } catch (SQLException e) {
             System.out.println("********SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
@@ -114,6 +117,31 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void setCommands() throws SQLException {
+        commands = new ArrayList<Command>();
+        String query = "SELECT * FROM watchdog.commands";
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+        //                Pet(String name, String gender, String type, String breed, int age, int id)
+                int command_id = rs.getInt("command_id");
+                int device_id = rs.getInt("device_id");
+                String command_desc = rs.getString("command_desc");
+                int value = rs.getInt("value");
+                Command command = new Command(command_id, device_id, command_desc, value);
+                commands.add(command);
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -322,6 +350,34 @@ public class MainActivity extends AppCompatActivity
         listView.setAdapter(adapter);
     }
 
+    public void setScheduleListView(ListView listView) throws SQLException {
+        setCommands();
+        int count = 0;
+        List<String> schedulesArray = new ArrayList<String>();
+
+        for (int i = 0; i < commands.size(); i++) {
+            int value = commands.get(i).getValue();
+            if (value != -1) {
+                int hour = value / 60;
+                int minute = value % 60;
+                String x = "A.M.";
+                if (hour > 12) {
+                    hour -= 12;
+                    x = "P.M";
+                }
+                int device_id = commands.get(i).getDevice_id();
+                Device device = getDeviceById(device_id);
+                Pet pet = getPetById(device.getPet_id());
+                schedulesArray.add(String.format("[ %s ]  %d : %02d %s", pet.getName(), hour, minute, x));
+                count++;
+            }
+        }
+        String[] schedules = new String[schedulesArray.size()];
+        schedules = schedulesArray.toArray(schedules);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, schedules);
+        listView.setAdapter(adapter);
+    }
+
     public void addPet(String name, String type, String gender, String age, String breed) throws SQLException {
         String template = "INSERT INTO watchdog.pets VALUES (null, '%s', '%s', '%s', %s, '%s')";
         String query = String.format(template, name, type, gender, age, breed);
@@ -381,5 +437,23 @@ public class MainActivity extends AppCompatActivity
         }
         return null;
 
+    }
+
+    private Device getDeviceById(int id) {
+        for (int i = 0; i < devices.size(); i++) {
+            if (devices.get(i).getDevice_id() == id) {
+                return devices.get(i);
+            }
+        }
+        return null;
+    }
+
+    private Pet getPetById(int id) {
+        for (int i = 0; i < pets.size(); i++) {
+            if (pets.get(i).getId() == id) {
+                return pets.get(i);
+            }
+        }
+        return null;
     }
 }
