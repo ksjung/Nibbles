@@ -339,4 +339,28 @@ public class MainActivity extends AppCompatActivity
         return pets.get(i);
     }
 
+    public String getRecentActivity(int id) throws SQLException{
+        Statement stmt = null;
+        String query = "SELECT * from watchdog.data INNER JOIN ( SELECT device_id, MAX(TIMESTAMP) " +
+                "AS maxtime FROM data GROUP BY device_id) " +
+                "mt ON data.device_id = mt.device_id AND timestamp = maxtime WHERE data.device_id = ";
+        query += id;
+        query += " AND value='activity'";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String coffeeName = rs.getString("COF_NAME");
+                return rs.getString("VALUE");
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return null;
+
+    }
 }
