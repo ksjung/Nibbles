@@ -14,10 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
 import java.sql.SQLException;
 
-
-import oscP5.*;
-//import com.cmu.watchdog.nibbles.netP5.*;
-
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 import android.graphics.drawable.Drawable;

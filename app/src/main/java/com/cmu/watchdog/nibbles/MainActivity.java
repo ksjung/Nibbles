@@ -2,13 +2,10 @@ package com.cmu.watchdog.nibbles;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,9 +32,6 @@ import com.cmu.watchdog.nibbles.models.Pet;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import netP5.NetAddress;
-import oscP5.OscMessage;
-import oscP5.OscP5;
 import java.sql.*;
 import java.util.List;
 
@@ -89,9 +83,6 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
-
-        NetMan nm = new NetMan();
-        nm.connect();
 
         connectDB();
     }
@@ -361,7 +352,8 @@ public class MainActivity extends AppCompatActivity
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String coffeeName = rs.getString("COF_NAME");
+                System.out.println("VALUE OUTPUTTED");
+                System.out.println(rs.getString("VALUE"));
                 return rs.getString("VALUE");
             }
         } catch (SQLException e ) {
