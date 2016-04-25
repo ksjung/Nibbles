@@ -352,8 +352,6 @@ public class MainActivity extends AppCompatActivity
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                System.out.println("VALUE OUTPUTTED");
-                System.out.println(rs.getString("VALUE"));
                 return rs.getString("VALUE");
             }
         } catch (SQLException e ) {
