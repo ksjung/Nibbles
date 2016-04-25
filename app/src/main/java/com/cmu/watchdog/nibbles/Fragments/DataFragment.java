@@ -42,7 +42,7 @@ public class DataFragment extends Fragment{
 
         //Activity Text Animation
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(50); //You can manage the time of the blink with this parameter
+        anim.setDuration(500); //You can manage the time of the blink with this parameter
         anim.setStartOffset(20);
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(Animation.INFINITE);
@@ -62,6 +62,7 @@ public class DataFragment extends Fragment{
 
     private void refreshPetActivity() {
         MainActivity activity = (MainActivity) getActivity();
+        //<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
         try {
             String recentActivity = activity.getRecentActivity(4);
             if (recentActivity == "walking") {
@@ -77,6 +78,7 @@ public class DataFragment extends Fragment{
                 activityText.setText("Resting");
             }
             else {
+                activityIcon.setImageResource(R.drawable.paw);
                 activityText.setText("Please refresh");
             }
         }

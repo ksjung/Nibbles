@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import com.cmu.watchdog.nibbles.Fragments.DataFragment;
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
@@ -159,6 +160,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_feed) {
             Fragment fragment = new ScheduleFragment();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        } else if (id == R.id.nav_monitor) {
+            Fragment fragment = new DataFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
 
