@@ -35,36 +35,28 @@ public class ScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         ImageButton feedBtn = (ImageButton)view.findViewById(R.id.feedButton);
+        feedBtnListener(feedBtn);
 
+        Button addScheduleBtn = (Button) view.findViewById(R.id.addButton);
+        addBtnListener(addScheduleBtn);
 
+        return view;
+    }
+
+    private void feedBtnListener(ImageButton feedBtn) {
         feedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                MainActivity activity = (MainActivity) getActivity();
 
-                try {
-                    String query = "INSERT INTO watchdog.commands VALUES (null, 4, 'feed now', -1, null)";
-                    activity.sendCommand(query);
-                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                    System.out.println("SENDING COMMAND");
-                    System.out.println(query);
-                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                } catch (SQLException e) {
-                    System.out.println("..................................");
-                    System.out.println("SQL EXCEPTION");
-                    System.out.println("..................................");
-                    e.printStackTrace();
-                }
-
-                frag = new FeedFragment();
-                fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
-                fragTransaction.commit();
+            frag = new FeedFragment();
+            fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+            fragTransaction.commit();
             }
         });
+    }
 
-
-        Button addScheduleBtn = (Button) view.findViewById(R.id.addButton);
+    private void addBtnListener(Button addScheduleBtn) {
         addScheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +66,5 @@ public class ScheduleFragment extends Fragment {
                 fragTransaction.commit();
             }
         });
-        return view;
     }
-
 }

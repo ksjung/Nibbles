@@ -256,16 +256,16 @@ public class MainActivity extends AppCompatActivity
 
     private void setDevices() throws  SQLException {
         devices = new ArrayList<Device>();
-        String query = "select * from watchdog.device";
+        String query = "select * from watchdog.devices";
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
 //                Device(int device_id, String name, int pet_id)
-                int device_id = rs.getInt("DEVICE_ID");
-                String name = rs.getString("NAME");
-                int pet_id = rs.getInt("PET_ID");
+                int device_id = rs.getInt("device_id");
+                String name = rs.getString("name");
+                int pet_id = rs.getInt("pet_id");
                 Device device = new Device(device_id, name, pet_id);
                 devices.add(device);
             }
@@ -324,4 +324,9 @@ public class MainActivity extends AppCompatActivity
         }
         return;
     }
+
+    public Pet getPetAtIndex(int i) {
+        return pets.get(i);
+    }
+
 }
