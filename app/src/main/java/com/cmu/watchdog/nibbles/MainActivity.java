@@ -25,6 +25,7 @@ import com.cmu.watchdog.nibbles.Fragments.DataFragment;
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
+import com.cmu.watchdog.nibbles.Fragments.SelectPetToMonitorFragment;
 import com.cmu.watchdog.nibbles.Fragments.WebCamViewFragment;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.content_frame, fragment)
                     .commit();
         } else if (id == R.id.nav_monitor) {
-            Fragment fragment = new DataFragment();
+            Fragment fragment = new SelectPetToMonitorFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
 
@@ -242,7 +243,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setPets() throws SQLException {
         pets = new ArrayList<Pet>();
-        String query = "SELECT * FROM watchdog.pets";
+        String query = "SELECT * FROM watchdog.pet";
         Statement stmt = null;
 
         try {
@@ -270,7 +271,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setDevices() throws  SQLException {
         devices = new ArrayList<Device>();
-        String query = "select * from watchdog.devices";
+        String query = "select * from watchdog.device";
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
@@ -323,7 +324,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void addPet(String name, String type, String gender, String age, String breed) throws SQLException {
-        String template = "INSERT INTO watchdog.pets VALUES (null, '%s', '%s', '%s', %s, '%s')";
+        String template = "INSERT INTO watchdog.pet VALUES (null, '%s', '%s', '%s', %s, '%s')";
         String query = String.format(template, name, type, gender, age, breed);
         Statement stmt = null;
         try {
@@ -361,9 +362,10 @@ public class MainActivity extends AppCompatActivity
 
     public String getRecentActivity(int id) throws SQLException{
         Statement stmt = null;
-        String query = "select * from watchdog.data INNER JOIN ( SELECT device_id, MAX(updated_at) " +
-                "AS maxtime FROM data GROUP BY device_id) " +
-                "mt ON data.device_id = mt.device_id AND updated_at = maxtime WHERE data.device_id = ";
+        //String query = "select * from watchdog.data INNER JOIN ( SELECT device_id, MAX(updated_at) " +
+        //        "AS maxtime FROM data GROUP BY device_id) " +
+        //        "mt ON data.device_id = mt.device_id AND updated_at = maxtime WHERE data.device_id = ";
+        String query = "select * from watchdog.data WHERE data.device_id = ";
         query += id;
         query += " AND data_desc ='activity'";
         try {
@@ -380,6 +382,89 @@ public class MainActivity extends AppCompatActivity
             if (stmt != null) { stmt.close(); }
         }
         return null;
+    }
 
+    public int getWeight(int id) throws SQLException {
+        Statement stmt = null;
+        String query = "select * from watchdog.data WHERE data.device_id = ";
+        query += id;
+        query += " AND data_desc ='weight'";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return rs.getInt("VALUE");
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return -1;
+    }
+
+    public String getTemperature(int id) throws SQLException {
+        Statement stmt = null;
+        String query = "select * from watchdog.data WHERE data.device_id = ";
+        query += id;
+        query += " AND data_desc ='temperature'";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return rs.getString("VALUE");
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return null;
+    }
+
+    public String getHumidity(int id) throws SQLException {
+        Statement stmt = null;
+        String query = "select * from watchdog.data WHERE data.device_id = ";
+        query += id;
+        query += " AND data_desc ='humidity'";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return rs.getString("VALUE");
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return null;
+    }
+
+    public int getBackpack(int id) throws SQLException {
+        Statement stmt = null;
+        String query = "select * from watchdog.device WHERE device.pet_id = ";
+        query += id;
+        query += " AND name ='BACKPACK'";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return rs.getInt("device_id");
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return -1;
     }
 }

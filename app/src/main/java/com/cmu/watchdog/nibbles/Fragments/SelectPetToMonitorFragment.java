@@ -1,6 +1,5 @@
 package com.cmu.watchdog.nibbles.Fragments;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,11 +18,10 @@ import com.cmu.watchdog.nibbles.models.Pet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class FeedFragment extends Fragment{
-
-    public FeedFragment() {
-
-    }
+/**
+ * Created by ksjung on 4/25/16.
+ */
+public class SelectPetToMonitorFragment extends Fragment{
 
     @Nullable
     @Override
@@ -59,30 +57,19 @@ public class FeedFragment extends Fragment{
                     }
                 }
 
-
-                try {
-                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed now', -1, null)", device.getDevice_id());
-                    activity.sendCommand(query);
-                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                    System.out.println("SENDING COMMAND");
-                    System.out.println(query);
-                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                } catch (SQLException e) {
-                    System.out.println("..................................");
-                    System.out.println("SQL EXCEPTION");
-                    System.out.println("..................................");
-                    e.printStackTrace();
-                }
+                activity.setSelectedPet(pet);
+                activity.setSelectedDevice(device);
 
                 Fragment frag;
                 FragmentTransaction fragTransaction;
 
-                frag = new ScheduleFragment();
+                frag = new DataFragment();
                 fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
                 fragTransaction.commit();
             }
         });
 
         return view;
+
     }
 }

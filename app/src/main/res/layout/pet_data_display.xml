@@ -7,7 +7,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="361dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|top">
 
         <TextView
@@ -40,55 +40,82 @@
             android:id="@+id/refresh_button"
             android:layout_gravity="center_horizontal" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Weight"
+                android:layout_gravity="left"
+                android:background="#88FF0000"/>
+
+            <TextView
+                android:id="@+id/weight_value"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#8800FF00"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Temperature"
+                android:layout_gravity="left"
+                android:background="#88FF0000"/>
+
+            <TextView
+                android:id="@+id/temperature_value"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#8800FF00"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Humidity"
+                android:layout_gravity="left"
+                android:background="#88FF0000"/>
+
+            <TextView
+                android:id="@+id/humidity_value"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="#8800FF00"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="109dp"
-        android:layout_gravity="bottom|left"
-        android:orientation="horizontal"
-        android:layout_margin="10dp">
-
-        <TableRow>
-            <TextView
-                android:text="Weight"
-                android:layout_width="250px"
-                android:layout_height="50px"
-                android:layout_column="1" />
-            <TextView
-                android:width="300px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:text="Temperature"
-                android:layout_width="250px"
-                android:layout_height="50px"
-                android:layout_column="1" />
-            <TextView
-                android:width="300px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:text="Humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="50px"
-                android:layout_column="1" />
-            <TextView
-                android:width="300px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3" />
-        </TableRow>
-
-    </TableLayout>
 
 </FrameLayout>
