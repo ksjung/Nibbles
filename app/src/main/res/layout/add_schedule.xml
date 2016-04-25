@@ -8,111 +8,136 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Choose Dates"
-        android:id="@+id/textView3"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="90dp"
-        android:textSize="25dp" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="311dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp">
+        android:layout_height="match_parent"
+        android:layout_gravity="left|top"
+        android:weightSum="1">
 
-        <CheckBox
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monday"
-            android:id="@+id/monday"
-            android:layout_gravity="left|center_vertical"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp" />
+            android:layout_height="145dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tuesday"
-            android:id="@+id/tuesday"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:checked="false" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Select \nTime"
+                android:id="@+id/textView3"
+                android:layout_weight="0.04"
+                android:textSize="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wednesday"
-            android:id="@+id/wednesday"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:checked="false" />
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="141dp"
+                android:id="@+id/hourPicker"
+                android:layout_gravity="center_horizontal" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thursday"
-            android:id="@+id/thursday"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:checked="false" />
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="141dp"
+                android:id="@+id/minutePicker"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Friday"
-            android:id="@+id/friday"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:checked="false" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="A.M."
+                android:id="@+id/textView6"
+                android:layout_gravity="center_vertical" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Saturday"
-            android:id="@+id/saturday"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:checked="false" />
+        </LinearLayout>
 
-        <CheckBox
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sunday"
-            android:id="@+id/sunday"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:checked="false" />
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monday"
+                android:id="@+id/monday"
+                android:layout_gravity="left|center_vertical"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuesday"
+                android:id="@+id/tuesday"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wednesday"
+                android:id="@+id/wednesday"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thursday"
+                android:id="@+id/thursday"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friday"
+                android:id="@+id/friday"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saturday"
+                android:id="@+id/saturday"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:checked="false" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sunday"
+                android:id="@+id/sunday"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:checked="false" />
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="185dp"
+            android:layout_height="93dp"
+            android:id="@+id/doneButton"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:src="@drawable/done_button"
+            android:layout_marginTop="15dp" />
+
     </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:id="@+id/done"
-        android:layout_gravity="center_horizontal|bottom" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Time"
-        android:id="@+id/timeButton"
-        android:layout_gravity="center_horizontal|top"
-        android:background="#ffffff"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:clickable="true"
-        android:onClick="showDatePickerDialog" />
 
 </FrameLayout>

@@ -61,7 +61,7 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                frag = new AddScheduleFragment();
+                frag = new SelectPetToFeedFragment();
                 fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
                 fragTransaction.commit();
             }

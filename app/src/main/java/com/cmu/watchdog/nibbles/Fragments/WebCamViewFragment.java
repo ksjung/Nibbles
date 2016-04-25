@@ -28,7 +28,7 @@ public class WebCamViewFragment extends Fragment {
         webView = (WebView) view.findViewById(R.id.webCamView);
         webView.setWebViewClient(new MyWebViewClient());
 
-        String url = "http://www.google.com";
+        String url = "http://128.237.224.100/html/";
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
 

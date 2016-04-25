@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     private List<Pet> pets;
     private List<Device> devices;
 
+    private Pet selectedPet;
+    private Device selectedDevice;
 
 
     @Override
@@ -337,6 +339,22 @@ public class MainActivity extends AppCompatActivity
 
     public Pet getPetAtIndex(int i) {
         return pets.get(i);
+    }
+
+    public Pet getSelectedPet() {
+        return selectedPet;
+    }
+
+    public void setSelectedPet(Pet selectedPet) {
+        this.selectedPet = selectedPet;
+    }
+
+    public Device getSelectedDevice() {
+        return selectedDevice;
+    }
+
+    public void setSelectedDevice(Device selectedDevice) {
+        this.selectedDevice = selectedDevice;
     }
 
 }

@@ -17,15 +17,14 @@
         android:layout_gravity="right|bottom"
         android:background="@drawable/add_button"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="90dp" />
 
     <ImageButton
-        android:layout_width="271dp"
-        android:layout_height="139dp"
+        android:layout_width="178dp"
+        android:layout_height="91dp"
         android:id="@+id/feedButton"
-        android:layout_gravity="left|bottom"
+        android:layout_gravity="center_horizontal|bottom"
         android:src="@drawable/feednow"
         android:contextClickable="false"
         android:contentDescription="feedButton"
