@@ -4,25 +4,43 @@
     android:layout_height="match_parent"
     tools:context="com.cmu.watchdog.nibbles.Fragments.ScheduleFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="361dp"
+        android:layout_gravity="center_horizontal|top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/pet_name"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_icon"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/activity_text"
+            android:layout_gravity="center_horizontal" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/pet_name"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="30dp" />
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="109dp"
         android:layout_gravity="bottom|left"
         android:orientation="horizontal"
         android:layout_margin="10dp">
-
-
 
         <TableRow>
             <TextView
@@ -33,7 +51,8 @@
             <TextView
                 android:width="300px"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_column="3" />
         </TableRow>
 
         <TableRow>
@@ -45,7 +64,8 @@
             <TextView
                 android:width="300px"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_column="3" />
         </TableRow>
 
         <TableRow>
@@ -57,7 +77,8 @@
             <TextView
                 android:width="300px"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_column="3" />
         </TableRow>
 
     </TableLayout>
