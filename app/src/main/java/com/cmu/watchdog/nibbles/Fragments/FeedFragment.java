@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import oscP5.*;
-//import com.cmu.watchdog.nibbles.netP5.*;
-
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 import com.cmu.watchdog.nibbles.models.Device;

@@ -4,19 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feed"
-            android:icon="@drawable/ic_query_builder_24dp"
+            android:icon="@drawable/bowl"
             android:title="Feed Menu" />
         <item
             android:id="@+id/nav_pets"
-            android:icon="@drawable/ic_loyalty_24dp"
+            android:icon="@drawable/pet_icon"
             android:title="My Pets" />
+        <item
+            android:id="@+id/nav_monitor"
+            android:icon="@drawable/monitor_icon"
+            android:title="Pet Monitor" />
         <item
             android:id="@+id/nav_activity"
             android:icon="@drawable/ic_loyalty_24dp"
             android:title="Activity Monitor" />
         <item
             android:id="@+id/nav_web_view"
-            android:icon="@drawable/ic_loyalty_24dp"
+            android:icon="@drawable/web_cam"
             android:title="Pet Web Cam" />
     </group>
 

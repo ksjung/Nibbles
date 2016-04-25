@@ -2,13 +2,10 @@ package com.cmu.watchdog.nibbles;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import com.cmu.watchdog.nibbles.Fragments.DataFragment;
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ActivityFragment;
@@ -34,9 +32,6 @@ import com.cmu.watchdog.nibbles.models.Pet;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import netP5.NetAddress;
-import oscP5.OscMessage;
-import oscP5.OscP5;
 import java.sql.*;
 import java.util.List;
 
@@ -47,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 
 //    String ip = "128.237.236.199"; // raspberry pi
 //    private String ip = "128.237.187.196"; // localhost
-    private String ip = "128.237.219.92";
+    private String ip = "128.237.224.100";
     private String database_name = "watchdog";
     private String username = "watchdog";
     private String password = "watchdog";
@@ -90,9 +85,6 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
-
-        NetMan nm = new NetMan();
-        nm.connect();
 
         connectDB();
     }
@@ -161,6 +153,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_feed) {
             Fragment fragment = new ScheduleFragment();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        } else if (id == R.id.nav_monitor) {
+            Fragment fragment = new DataFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
 
@@ -357,4 +359,27 @@ public class MainActivity extends AppCompatActivity
         this.selectedDevice = selectedDevice;
     }
 
+    public String getRecentActivity(int id) throws SQLException{
+        Statement stmt = null;
+        String query = "select * from watchdog.data INNER JOIN ( SELECT device_id, MAX(updated_at) " +
+                "AS maxtime FROM data GROUP BY device_id) " +
+                "mt ON data.device_id = mt.device_id AND updated_at = maxtime WHERE data.device_id = ";
+        query += id;
+        query += " AND data_desc ='activity'";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return rs.getString("VALUE");
+            }
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        return null;
+
+    }
 }
