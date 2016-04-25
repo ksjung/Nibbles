@@ -58,14 +58,4 @@ public class PetManagementFragment extends Fragment {
         return view;
     }
 
-//    private void setPetListView() {
-//        MainActivity activity = (MainActivity) getActivity();
-//        ListView listView = (ListView) activity.findViewById(R.id.petList);
-//        String[] petNames = new String[pets.size()];
-//        for (int i = 0; i < pets.size(); i++) {
-//            petNames[i] = pets.get(i).getName();
-//        }
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.fragment_petmanagement , android.R.id.petList , petNames);
-//    }
 }

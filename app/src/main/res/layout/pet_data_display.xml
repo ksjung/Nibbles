@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cmu.watchdog.nibbles.Fragments.ScheduleFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/pet_name"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="30dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="440dp"
+        android:layout_gravity="bottom|left"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+
+
+        <TableRow>
+            <TextView
+                android:text="Weight"
+                android:layout_width="250px"
+                android:layout_height="50px"
+                android:layout_column="1" />
+            <TextView
+                android:width="300px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Temperature"
+                android:layout_width="250px"
+                android:layout_height="50px"
+                android:layout_column="1" />
+            <TextView
+                android:width="300px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Humidity"
+                android:layout_width="250px"
+                android:layout_height="50px"
+                android:layout_column="1" />
+            <TextView
+                android:width="300px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+    </TableLayout>
+
+</FrameLayout>

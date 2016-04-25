@@ -108,31 +108,6 @@ public class MainActivity extends AppCompatActivity
 //                } catch (Exception e) { /* ignore close errors */ }
 //            }
         }
-
-        String query = "SELECT * FROM watchdog.pets";
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                System.out.println("======================================");
-                String name = rs.getString("name");
-                System.out.println(name);
-                System.out.println("======================================");
-            }
-
-        }
-        catch (SQLException e ) {
-            System.out.println("***************************************");
-            System.out.println("SQL NOT WORKING");
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-            System.out.println("***************************************");
-
-        } finally {
-//            if (stmt != null) { stmt.close(); }
-        }
     }
 
     @Override
