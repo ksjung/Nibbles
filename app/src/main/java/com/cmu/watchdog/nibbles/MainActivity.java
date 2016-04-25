@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
 
 //    String ip = "128.237.236.199"; // raspberry pi
 //    private String ip = "128.237.187.196"; // localhost
-    private String ip = "128.237.219.92";
+    private String ip = "128.237.224.100";
     private String database_name = "watchdog";
     private String username = "watchdog";
     private String password = "watchdog";
@@ -352,11 +352,11 @@ public class MainActivity extends AppCompatActivity
 
     public String getRecentActivity(int id) throws SQLException{
         Statement stmt = null;
-        String query = "SELECT * from watchdog.data INNER JOIN ( SELECT device_id, MAX(TIMESTAMP) " +
+        String query = "select * from watchdog.data INNER JOIN ( SELECT device_id, MAX(updated_at) " +
                 "AS maxtime FROM data GROUP BY device_id) " +
-                "mt ON data.device_id = mt.device_id AND timestamp = maxtime WHERE data.device_id = ";
+                "mt ON data.device_id = mt.device_id AND updated_at = maxtime WHERE data.device_id = ";
         query += id;
-        query += " AND value='activity'";
+        query += " AND data_desc ='activity'";
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
