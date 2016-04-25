@@ -7,25 +7,32 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import oscP5.*;
 //import com.cmu.watchdog.nibbles.netP5.*;
 
 import com.cmu.watchdog.nibbles.R;
 
-/**
- * Created by Helen on 4/5/16.
- */
-public class FeedFragment extends Fragment{
+public class DataFragment extends Fragment{
 
-    public FeedFragment() {
+    TextView name;
+    ImageView activityIcon;
+    TextView activityText;
+
+    public DataFragment() {
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.feed_now, container, false);
+        View view = inflater.inflate(R.layout.pet_data_display, container, false);
+        name = (TextView) view.findViewById(R.id.pet_name);
+        activityIcon = (ImageView) view.findViewById(R.id.activity_icon);
+        activityText = (TextView) view.findViewById(R.id.activity_text);
+        
         return view;
     }
 }
