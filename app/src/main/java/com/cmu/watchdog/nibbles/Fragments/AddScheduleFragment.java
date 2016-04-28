@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
@@ -31,6 +32,9 @@ public class AddScheduleFragment extends Fragment {
 
     NumberPicker hourPicker;
     NumberPicker minutePicker;
+    TextView ap;
+
+    private Boolean am = true;
 
     public AddScheduleFragment() {
 
@@ -45,10 +49,33 @@ public class AddScheduleFragment extends Fragment {
 
         hourPicker = (NumberPicker) view.findViewById(R.id.hourPicker);
         minutePicker = (NumberPicker) view.findViewById(R.id.minutePicker);
+        ap = (TextView) view.findViewById(R.id.ampm);
 
         hourPicker.setMinValue(1); //from array first value
         hourPicker.setMaxValue(12);
         hourPicker.setWrapSelectorWheel(true);
+
+        hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // do something here
+                if ((newVal == 1) && (oldVal == 12)) {
+                    if (am) {
+                        ap.setText("P.M.");
+                    } else {
+                        ap.setText("A.M.");
+                    }
+                    am = !am;
+                } else if ((newVal == 12) && (oldVal == 1)) {
+                    if (am) {
+                        ap.setText("P.M.");
+                    } else {
+                        ap.setText("A.M.");
+                    }
+                    am = !am;
+                }
+            }
+        });
 
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(60);
@@ -68,6 +95,9 @@ public class AddScheduleFragment extends Fragment {
                 int hour = hourPicker.getValue();
                 int minute = minutePicker.getValue();
 
+                if (!am) {
+                    hour += 12;
+                }
                 int time = hour * 60 + minute;
 
                 MainActivity activity = (MainActivity) getActivity();
@@ -75,7 +105,7 @@ public class AddScheduleFragment extends Fragment {
                 Device device = activity.getSelectedDevice();
 
                 try {
-                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed now', %d, null)", device.getDevice_id(), time);
+                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed', %d, 1)", device.getDevice_id(), time);
                     activity.sendCommand(query);
                     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     System.out.println("SENDING COMMAND");
