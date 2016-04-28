@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 
 //    String ip = "128.237.236.199"; // raspberry pi
 //    private String ip = "128.237.187.196"; // localhost
-    private String ip = "128.237.219.92";
+    private String ip = "128.237.224.100";
     private String database_name = "watchdog";
     private String username = "watchdog";
     private String password = "watchdog";
