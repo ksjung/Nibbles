@@ -75,7 +75,7 @@ public class DataFragment extends Fragment{
             }
             backUpdate = new UpdateBack();
             backUpdate.execute();
-            handler.postDelayed(dataRunnable, 1000);
+            handler.postDelayed(dataRunnable, 500);
         }
     };
 
