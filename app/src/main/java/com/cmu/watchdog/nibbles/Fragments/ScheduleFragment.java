@@ -7,14 +7,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.cmu.watchdog.nibbles.models.Command;
+import com.cmu.watchdog.nibbles.models.Device;
+import com.cmu.watchdog.nibbles.models.Pet;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -44,6 +49,9 @@ public class ScheduleFragment extends Fragment {
 
 
         ListView listView = (ListView) view.findViewById(R.id.scheduleList);
+
+        listOnclicker(listView);
+
         try {
             activity.setScheduleListView(listView);
         } catch (SQLException e) {
@@ -71,6 +79,29 @@ public class ScheduleFragment extends Fragment {
             public void onClick(View v) {
 
                 frag = new SelectPetToFeedFragment();
+                fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+                fragTransaction.commit();
+            }
+        });
+    }
+
+    private void listOnclicker(ListView listView) {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View v, int position, long id)
+            {
+                MainActivity activity = (MainActivity) getActivity();
+
+
+                Command command = activity.getCommandAtIndex(position);
+                System.out.println(command.toString() + " *** ID = " +command.getCommand_desc());
+
+                activity.setSelectedCommand(command);
+
+                Fragment frag;
+                FragmentTransaction fragTransaction;
+
+                frag = new FeedSchedulePageFragment();
                 fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
                 fragTransaction.commit();
             }

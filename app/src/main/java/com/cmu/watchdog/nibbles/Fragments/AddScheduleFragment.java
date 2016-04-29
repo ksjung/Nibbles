@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
@@ -26,11 +28,26 @@ import java.util.List;
  */
 public class AddScheduleFragment extends Fragment {
 
-    Fragment frag;
-    FragmentTransaction fragTransaction;
+    private Fragment frag;
+    private FragmentTransaction fragTransaction;
 
-    NumberPicker hourPicker;
-    NumberPicker minutePicker;
+    private NumberPicker hourPicker;
+    private NumberPicker minutePicker;
+    private TextView ap;
+
+    private Boolean am = true;
+
+    private CheckBox monday;
+    private CheckBox tuesday;
+    private CheckBox wednesday;
+    private CheckBox thursday;
+    private CheckBox friday;
+    private CheckBox saturday;
+    private CheckBox sunday;
+
+    private CheckBox[] days = new CheckBox[7];;
+
+    private String desc = "feed ";
 
     public AddScheduleFragment() {
 
@@ -45,10 +62,41 @@ public class AddScheduleFragment extends Fragment {
 
         hourPicker = (NumberPicker) view.findViewById(R.id.hourPicker);
         minutePicker = (NumberPicker) view.findViewById(R.id.minutePicker);
+        ap = (TextView) view.findViewById(R.id.ampm);
 
         hourPicker.setMinValue(1); //from array first value
         hourPicker.setMaxValue(12);
         hourPicker.setWrapSelectorWheel(true);
+
+        days[0] = (CheckBox) view.findViewById(R.id.monday);
+        days[1] = (CheckBox) view.findViewById(R.id.tuesday);
+        days[2] = (CheckBox) view.findViewById(R.id.wednesday);
+        days[3] = (CheckBox) view.findViewById(R.id.thursday);
+        days[4] = (CheckBox) view.findViewById(R.id.friday);
+        days[5] = (CheckBox) view.findViewById(R.id.saturday);
+        days[6] = (CheckBox) view.findViewById(R.id.sunday);
+
+        hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // do something here
+                if ((newVal == 1) && (oldVal == 12)) {
+                    if (am) {
+                        ap.setText("P.M.");
+                    } else {
+                        ap.setText("A.M.");
+                    }
+                    am = !am;
+                } else if ((newVal == 12) && (oldVal == 1)) {
+                    if (am) {
+                        ap.setText("P.M.");
+                    } else {
+                        ap.setText("A.M.");
+                    }
+                    am = !am;
+                }
+            }
+        });
 
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(60);
@@ -68,23 +116,27 @@ public class AddScheduleFragment extends Fragment {
                 int hour = hourPicker.getValue();
                 int minute = minutePicker.getValue();
 
+                if (!am) {
+                    hour += 12;
+                }
                 int time = hour * 60 + minute;
+
+                for (int i = 0; i < days.length; i++) {
+                    if (days[i].isChecked()) {
+                        desc += "1";
+                    } else {
+                        desc += "0";
+                    }
+                }
 
                 MainActivity activity = (MainActivity) getActivity();
                 Pet pet = activity.getSelectedPet();
                 Device device = activity.getSelectedDevice();
 
                 try {
-                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed now', %d, null)", device.getDevice_id(), time);
+                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, '%s', %d, 1)", device.getDevice_id(), desc, time);
                     activity.sendCommand(query);
-                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                    System.out.println("SENDING COMMAND");
-                    System.out.println(query);
-                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 } catch (SQLException e) {
-                    System.out.println("..................................");
-                    System.out.println("SQL EXCEPTION");
-                    System.out.println("..................................");
                     e.printStackTrace();
                 }
 

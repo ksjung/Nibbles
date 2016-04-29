@@ -7,6 +7,7 @@ public class Device {
     private int device_id;
     private String name;
     private int pet_id;
+    private Pet pet;
 
     public Device(int device_id, String name, int pet_id) {
         this.device_id = device_id;
@@ -36,6 +37,14 @@ public class Device {
 
     public void setPet_id(int pet_id) {
         this.pet_id = pet_id;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
     @Override

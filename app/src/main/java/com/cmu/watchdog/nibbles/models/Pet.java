@@ -1,5 +1,10 @@
 package com.cmu.watchdog.nibbles.models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by alicesypark on 4/9/16.
  */
@@ -10,6 +15,7 @@ public class Pet {
     private String breed;
     private int age;
     private int id;
+    private Map<Integer, Device> devices;
 
     public Pet(String name, String gender, String type, String breed, int age, int id) {
         this.name = name;
@@ -18,6 +24,7 @@ public class Pet {
         this.breed = breed;
         this.age = age;
         this.id = id;
+        this.devices = new HashMap<Integer, Device>();
     }
 
     public String getName() {
@@ -66,6 +73,23 @@ public class Pet {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Map<Integer, Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(Map<Integer, Device> devices) {
+        this.devices = devices;
+    }
+
+    public void getDeviceById(int i) {
+        devices.get(i);
+    }
+
+    public void addDevice(Device d) {
+        int device_id = d.getDevice_id();
+        this.devices.put(device_id, d);
     }
 
     @Override
