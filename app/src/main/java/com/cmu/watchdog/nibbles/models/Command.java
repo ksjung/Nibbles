@@ -1,5 +1,7 @@
 package com.cmu.watchdog.nibbles.models;
 
+import com.cmu.watchdog.nibbles.MainActivity;
+
 /**
  * Created by alicesypark on 4/25/16.
  */
@@ -8,12 +10,32 @@ public class Command {
     private int device_id;
     private String command_desc;
     private int value;
+    private Pet pet;
+    private Device device;
 
     public Command(int c_id, int d_id, String c_desc, int val) {
         command_id = c_id;
         device_id = d_id;
         command_desc = c_desc;
         value = val;
+
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    public Pet getPet() {
+
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
     public int getCommand_id() {

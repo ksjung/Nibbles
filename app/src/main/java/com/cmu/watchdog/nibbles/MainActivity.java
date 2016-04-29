@@ -35,7 +35,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.*;
 
@@ -51,13 +53,15 @@ public class MainActivity extends AppCompatActivity
 
     private Connection conn = null;
 
+    private Map<Integer, Pet> petMap = new HashMap<Integer, Pet>();
+    private Map<Integer, Device> deviceMap = new HashMap<Integer, Device>();
     private List<Pet> pets;
     private List<Device> devices;
     private List<Command> commands;
 
     private Pet selectedPet;
     private Device selectedDevice;
-
+    private Command selectedCommand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +105,10 @@ public class MainActivity extends AppCompatActivity
             System.out.println("------------------------------Database connection established");
             setDevices();
             setPets();
+            connectPetsDevices();
+
             setCommands();
+
         } catch (SQLException e) {
             System.out.println("********SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
@@ -118,7 +125,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setCommands() throws SQLException {
+    public void connectPetsDevices() {
+        for (Device device : devices) {
+            int pet_id = device.getPet_id();
+            int device_id = device.getDevice_id();
+            Pet pet = petMap.get(pet_id);
+            pet.addDevice(device);
+            device.setPet(pet);
+        }
+    }
+
+    public void setCommands() throws SQLException {
         commands = new ArrayList<Command>();
         String query = "SELECT * FROM watchdog.commands";
         Statement stmt = null;
@@ -134,6 +151,9 @@ public class MainActivity extends AppCompatActivity
                 int value = rs.getInt("value");
                 Command command = new Command(command_id, device_id, command_desc, value);
                 commands.add(command);
+                Device d = deviceMap.get(device_id);
+                command.setDevice(deviceMap.get(d));
+                command.setPet(d.getPet());
             }
         } catch (SQLException e ) {
             System.out.println("SQLException: " + e.getMessage());
@@ -269,7 +289,7 @@ public class MainActivity extends AppCompatActivity
         return devices;
     }
 
-    private void setPets() throws SQLException {
+    public void setPets() throws SQLException {
         pets = new ArrayList<Pet>();
         String query = "SELECT * FROM watchdog.pet";
         Statement stmt = null;
@@ -287,6 +307,7 @@ public class MainActivity extends AppCompatActivity
                 int id = rs.getInt("pet_id");
                 Pet pet = new Pet(name, type, gender, breed, age, id);
                 pets.add(pet);
+                petMap.put(id, pet);
             }
         } catch (SQLException e ) {
             System.out.println("SQLException: " + e.getMessage());
@@ -297,7 +318,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setDevices() throws  SQLException {
+    public void setDevices() throws  SQLException {
         devices = new ArrayList<Device>();
         String query = "select * from watchdog.device";
         Statement stmt = null;
@@ -311,6 +332,7 @@ public class MainActivity extends AppCompatActivity
                 int pet_id = rs.getInt("pet_id");
                 Device device = new Device(device_id, name, pet_id);
                 devices.add(device);
+                deviceMap.put(device_id, device);
             }
         }
         catch (SQLException e ) {
@@ -400,6 +422,36 @@ public class MainActivity extends AppCompatActivity
         return pets.get(i);
     }
 
+    public Command getCommandAtIndex(int i) {
+        return commands.get(i);
+    }
+
+    public List<Command> getCommands() {
+        return commands;
+    }
+
+    public void removeCommand(Command com) throws SQLException {
+        this.commands.remove(com);
+
+        String query = "DELETE FROM watchdog.commands " +
+                "WHERE command_id = " + com.getCommand_id();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query); // use 'executedUpdate' when inserting data into db
+        } catch (SQLException e ) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        setCommands();
+        System.out.println("======== removed command");
+    }
+
     public Pet getSelectedPet() {
         return selectedPet;
     }
@@ -410,6 +462,15 @@ public class MainActivity extends AppCompatActivity
 
     public Device getSelectedDevice() {
         return selectedDevice;
+    }
+
+    public Command getSelectedCommand() {
+        return selectedCommand;
+    }
+
+
+    public void setSelectedCommand(Command selectedCommand) {
+        this.selectedCommand = selectedCommand;
     }
 
     public void setSelectedDevice(Device selectedDevice) {
@@ -525,20 +586,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private Device getDeviceById(int id) {
-        for (int i = 0; i < devices.size(); i++) {
-            if (devices.get(i).getDevice_id() == id) {
-                return devices.get(i);
-            }
-        }
-        return null;
+        return deviceMap.get(id);
     }
 
     private Pet getPetById(int id) {
-        for (int i = 0; i < pets.size(); i++) {
-            if (pets.get(i).getId() == id) {
-                return pets.get(i);
-            }
-        }
-        return null;
+        return petMap.get(id);
     }
+
+
 }
