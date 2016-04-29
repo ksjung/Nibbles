@@ -48,6 +48,7 @@ public class FeedSchedulePageFragment extends Fragment {
             ampm = " P.M.";
         }
         String desc = command.getCommand_desc();
+        desc = desc.substring(desc.length() - 7);
 
 
         Pet pet = command.getPet();
@@ -64,8 +65,30 @@ public class FeedSchedulePageFragment extends Fragment {
         TextView days = (TextView) view.findViewById(R.id.days);
 
         pet_name.setText(pet.getName());
-        time.setText(hour + " : " + minute + ampm);
-        days.setText(desc);
+        time.setText(String.format("%d : %02d %s", hour, minute, ampm));
+
+
+        String dayDesc = new String();
+        for (int i = 0; i < desc.length(); i++) {
+            if (desc.charAt(i) == '1') {
+                if (i == 0) {
+                    dayDesc += "Monday \n";
+                } else if (i == 1) {
+                    dayDesc += "Tuesday \n";
+                } else if (i == 2) {
+                    dayDesc += "Wednesday \n";
+                } else if (i == 3) {
+                    dayDesc += "Thursday \n";
+                } else if (i == 4) {
+                    dayDesc += "Friday \n";
+                } else if (i == 5) {
+                    dayDesc += "Saturday \n";
+                } else if (i == 6) {
+                    dayDesc += "Sunday \n";
+                }
+            }
+        }
+        days.setText(dayDesc);
 
         Button delete_button = (Button) view.findViewById(R.id.delete_button);
         delete_button.setOnClickListener(new View.OnClickListener() {

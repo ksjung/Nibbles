@@ -40,7 +40,8 @@
             android:text="days"
             android:id="@+id/days"
             android:layout_gravity="center_horizontal"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:textAlignment="center" />
 
     </LinearLayout>
 
