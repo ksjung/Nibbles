@@ -38,9 +38,8 @@ public class DataFragment extends Fragment{
 
     @Override
     public void onDestroyView() {
-        if (backUpdate!=null) {
-            backUpdate.cancel(true);
-        }
+        System.out.println("in data fragment on destroy");
+        backUpdate.cancel(true);
         handler.removeCallbacks(dataRunnable);
         super.onDestroyView();
     }
@@ -71,10 +70,11 @@ public class DataFragment extends Fragment{
     private Runnable dataRunnable = new Runnable() {
         @Override
         public void run() {
-            if (backUpdate== null) {
-                backUpdate = new UpdateBack();
-                backUpdate.execute();
+            if (backUpdate != null) {
+                backUpdate.cancel(true);
             }
+            backUpdate = new UpdateBack();
+            backUpdate.execute();
             handler.postDelayed(dataRunnable, 1000);
         }
     };
@@ -86,6 +86,7 @@ public class DataFragment extends Fragment{
         protected Map<String, String> doInBackground(Void... params) {
             MainActivity activity = (MainActivity) getActivity();
             Map<String, String> result = null;
+            System.out.println("in data fragment");
             try {
                 result = activity.getBackpackData();
             } catch (SQLException e) {
@@ -102,6 +103,7 @@ public class DataFragment extends Fragment{
             //activity
             if (result.containsKey("activity")) {
                 String activity = result.get("activity");
+
                 if (activity == null) {
                     activityIcon.setImageResource(R.drawable.paw);
                     activityText.setText("No data available. Please refresh");
