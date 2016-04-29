@@ -523,6 +523,7 @@ public class MainActivity extends AppCompatActivity
         if (backpack != -1) {
             String query = "select * from watchdog.data WHERE data.device_id = ";
             query += backpack;
+            query += " AND (data_desc = 'activity' OR data_desc = 'temperature' OR data_desc = 'humidity')";
             try {
                 stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
