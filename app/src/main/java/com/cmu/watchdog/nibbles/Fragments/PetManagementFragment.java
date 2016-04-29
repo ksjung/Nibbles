@@ -6,12 +6,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.cmu.watchdog.nibbles.models.Command;
 import com.cmu.watchdog.nibbles.models.Pet;
 
 import java.sql.SQLException;
@@ -49,6 +51,7 @@ public class PetManagementFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
 
         ListView listView = (ListView) view.findViewById(R.id.petsList);
+        listOnclicker(listView);
         try {
             activity.setListView(listView);
         } catch (SQLException e) {
@@ -56,6 +59,27 @@ public class PetManagementFragment extends Fragment {
         }
 
         return view;
+    }
+
+    private void listOnclicker(ListView listView) {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View v, int position, long id)
+            {
+                MainActivity activity = (MainActivity) getActivity();
+
+                Pet pet = activity.getPetAtIndex(position);
+
+                activity.setSelectedPet(pet);
+
+                Fragment frag;
+                FragmentTransaction fragTransaction;
+
+                frag = new PetProfileFragment();
+                fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+                fragTransaction.commit();
+            }
+        });
     }
 
 }
