@@ -61,7 +61,7 @@ public class FeedFragment extends Fragment{
 
 
                 try {
-                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed now', -1, null)", device.getDevice_id());
+                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed now', -1, 1)", device.getDevice_id());
                     activity.sendCommand(query);
                     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     System.out.println("SENDING COMMAND");
