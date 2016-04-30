@@ -41,7 +41,6 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
-    compile 'com.jjoe64:graphview:4.0.1'
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile files('libs/mysql-connector-java-5.0.8-bin.jar')
 }

@@ -163,7 +163,7 @@ public class WeightFragment extends Fragment{
                 weightText.setText("Weight unavailable");
             }
             else {
-                weightText.setText(result.toString());
+                weightText.setText(result.toString() + " kgs");
             }
         }
     }
