@@ -1,5 +1,6 @@
 package com.cmu.watchdog.nibbles.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -21,6 +23,7 @@ import java.sql.SQLException;
  * Created by Alice on 4/5/16.
  */
 public class AddPetFragment extends Fragment {
+    private static final int SELECT_PICTURE = 1;
 
     ImageButton addBtn;
     EditText name;
@@ -28,6 +31,7 @@ public class AddPetFragment extends Fragment {
     EditText age;
     RadioGroup gender;
     RadioGroup type;
+    Button uploadButton;
 
     Fragment frag;
     FragmentTransaction fragTransaction;
@@ -48,6 +52,9 @@ public class AddPetFragment extends Fragment {
         breed = (EditText)view.findViewById(R.id.breed);
         gender = (RadioGroup)view.findViewById(R.id.gender);
         age = (EditText)view.findViewById(R.id.age);
+
+
+
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override

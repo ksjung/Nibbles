@@ -32,9 +32,12 @@ public class ScheduleFragment extends Fragment {
     public ScheduleFragment() {
         // Empty constructor required for fragment subclasses
     }
+
+
     public void onCreate() {
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

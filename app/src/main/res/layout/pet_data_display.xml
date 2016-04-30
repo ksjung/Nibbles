@@ -16,7 +16,9 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/pet_name"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -30,13 +32,16 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/activity_text"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:textAlignment="center">
 
             <TextView
                 android:id="@+id/textView3"
@@ -45,8 +50,10 @@
                 android:layout_height="wrap_content"
                 android:text="Temperature"
                 android:layout_gravity="left"
-                android:background="#88FF0000"
-                android:textAlignment="center" />
+                android:background="#00ff0000"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/temperature_value"
@@ -54,7 +61,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:background="#8800FF00"/>
+                android:background="#0000ff00"
+                android:textSize="20dp" />
 
         </LinearLayout>
 
@@ -62,7 +70,9 @@
             android:id="@+id/linearLayout4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:textAlignment="center">
 
             <TextView
                 android:id="@+id/textView4"
@@ -71,8 +81,10 @@
                 android:layout_height="wrap_content"
                 android:text="Humidity"
                 android:layout_gravity="left"
-                android:background="#88FF0000"
-                android:textAlignment="center" />
+                android:background="#00ff0000"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/humidity_value"
@@ -80,7 +92,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:background="#8800FF00"/>
+                android:background="#0000ff00"
+                android:textSize="20dp" />
 
         </LinearLayout>
 
