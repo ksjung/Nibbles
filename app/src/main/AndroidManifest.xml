@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/watchdog"
         android:label="Watchdog"
         android:supportsRtl="true"
         android:layout_gravity="center_horizontal"
