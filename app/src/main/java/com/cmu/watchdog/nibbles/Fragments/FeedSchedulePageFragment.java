@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 import com.cmu.watchdog.nibbles.models.Command;
+import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
 
@@ -25,6 +26,7 @@ import java.util.List;
  * Created by alicesypark on 4/28/16.
  */
 public class FeedSchedulePageFragment extends Fragment {
+    private DatabaseHandler db;
 
     private Command command;
     private MainActivity activity;
@@ -95,7 +97,13 @@ public class FeedSchedulePageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    activity.removeCommand(command);
+
+                    db = new DatabaseHandler();
+                    db.connectDB();
+
+                    db.removeCommand(command);
+
+                    db.closeDB();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

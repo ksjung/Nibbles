@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
 
@@ -20,7 +21,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class FeedFragment extends Fragment{
-
+    private DatabaseHandler db;
     public FeedFragment() {
 
     }
@@ -61,12 +62,18 @@ public class FeedFragment extends Fragment{
 
 
                 try {
+
+
+                    db = new DatabaseHandler();
+                    db.connectDB();
+
                     String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed now', -1, 1)", device.getDevice_id());
-                    activity.sendCommand(query);
+                    db.sendCommand(query);
                     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     System.out.println("SENDING COMMAND");
                     System.out.println(query);
                     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    db.closeDB();
                 } catch (SQLException e) {
                     System.out.println("..................................");
                     System.out.println("SQL EXCEPTION");

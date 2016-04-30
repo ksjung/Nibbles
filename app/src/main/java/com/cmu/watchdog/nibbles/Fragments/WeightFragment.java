@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.WeightResult;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -25,6 +26,8 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
  * Shows activity from accelerometer.
  */
 public class WeightFragment extends Fragment {
+    private DatabaseHandler db;
+
     UpdateBack backUpdate;
     private PointsGraphSeries<DataPoint> series;
 
@@ -37,6 +40,7 @@ public class WeightFragment extends Fragment {
         if (backUpdate!=null) {
             backUpdate.cancel(true);
         }
+        db.closeDB();
         super.onDestroyView();
     }
 
@@ -45,6 +49,8 @@ public class WeightFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_weight, container, false);
 
+        db = new DatabaseHandler();
+        db.connectDB();
 
         MainActivity activity = (MainActivity) getActivity();
         if (series != null) {
@@ -54,7 +60,7 @@ public class WeightFragment extends Fragment {
 
         List<WeightResult> result = null;
         try {
-            result = activity.getFeederData();
+            result = db.getFeederData(4);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,7 +93,7 @@ public class WeightFragment extends Fragment {
             MainActivity activity = (MainActivity) getActivity();
             List<WeightResult> result = null;
             try {
-                result = activity.getFeederData();
+                result = db.getFeederData(4);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

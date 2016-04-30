@@ -17,16 +17,15 @@ import android.widget.TextView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
 
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by Helen on 4/5/16.
- */
 public class AddScheduleFragment extends Fragment {
+    private DatabaseHandler db;
 
     private Fragment frag;
     private FragmentTransaction fragTransaction;
@@ -135,7 +134,12 @@ public class AddScheduleFragment extends Fragment {
 
                 try {
                     String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, '%s', %d, 1)", device.getDevice_id(), desc, time);
-                    activity.sendCommand(query);
+
+                    db = new DatabaseHandler();
+                    db.connectDB();
+                    db.sendCommand(query);
+                    db.closeDB();
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
