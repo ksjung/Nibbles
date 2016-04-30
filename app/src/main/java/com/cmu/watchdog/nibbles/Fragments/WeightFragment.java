@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
+import android.widget.Toast;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Pet;
 import com.cmu.watchdog.nibbles.models.WeightResult;
 
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -56,7 +59,7 @@ public class WeightFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
+        View view = inflater.inflate(R.layout.show_weight, container, false);
 
         weightText = (TextView) view.findViewById(R.id.weight_text);
         //Activity Text Animation
@@ -70,6 +73,7 @@ public class WeightFragment extends Fragment{
         chart = (LineChartView) view.findViewById(R.id.chart);
 
         chart.setInteractive(true);
+        chart.setOnValueTouchListener(new ValueTouchListener());
 
         db = new DatabaseHandler();
         db.connectDB();
@@ -162,5 +166,20 @@ public class WeightFragment extends Fragment{
                 weightText.setText(result.toString());
             }
         }
+    }
+
+    private class ValueTouchListener implements LineChartOnValueSelectListener {
+
+        @Override
+        public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
+            Toast.makeText(getActivity(), "Weight: " + value.getY() + "kgs", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onValueDeselected() {
+            // TODO Auto-generated method stub
+
+        }
+
     }
 }

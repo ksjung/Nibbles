@@ -24,7 +24,6 @@ import android.widget.TimePicker;
 
 import com.cmu.watchdog.nibbles.Fragments.DataFragment;
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
-import com.cmu.watchdog.nibbles.Fragments.SampleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.WeightFragment;
 //import com.cmu.watchdog.nibbles.Fragments.SelectPetToMonitorFragment;

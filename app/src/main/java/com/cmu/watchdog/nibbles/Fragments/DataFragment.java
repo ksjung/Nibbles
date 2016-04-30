@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
+import android.widget.Toast;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Pet;
 import com.cmu.watchdog.nibbles.models.WeightResult;
 
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -83,6 +86,8 @@ public class DataFragment extends Fragment{
 
 
         predictionChart.setInteractive(true);
+        predictionChart.setOnValueTouchListener(new ValueTouchListener());
+
 
         List<PointValue> values = new ArrayList<PointValue>();
 
@@ -198,5 +203,20 @@ public class DataFragment extends Fragment{
                 temperature.setText(result.get("temperature") + " C");
             }
         }
+    }
+
+    private class ValueTouchListener implements LineChartOnValueSelectListener {
+
+        @Override
+        public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
+            Toast.makeText(getActivity(), "Acceleration at " + (int) value.getX() + ":00 is " + value.getY(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onValueDeselected() {
+            // TODO Auto-generated method stub
+
+        }
+
     }
 }
