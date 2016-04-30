@@ -18,8 +18,8 @@
             android:layout_height="200dp" />
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="159dp"
+            android:layout_height="159dp"
             android:id="@+id/activity_icon"
             android:layout_gravity="center_horizontal" />
 
