@@ -195,7 +195,7 @@ public class DataFragment extends Fragment{
 
             //humidity
             if (result.containsKey("humidity")) {
-                humidity.setText(result.get("humidity" + " %"));
+                humidity.setText(result.get("humidity") + " %");
             }
 
             //temperature
