@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,18 +198,74 @@ public class DatabaseHandler {
         }
     }
 
+    public int getCurrentWeight(int feeder) throws SQLException {
+        Statement stmt = null;
+        int result = -1;
+        if (feeder != -1) {
+            String query = "select * from watchdog.data WHERE data.device_id = ";
+            query += feeder;
+            query += " AND data.data_desc = 'weight-now'";
+            try {
+                stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    result = rs.getInt("VALUE");
+                }
+            } catch (SQLException e) {
+                System.out.println("SQLException: " + e.getMessage());
+                System.out.println("SQLState: " + e.getSQLState());
+                System.out.println("VendorError: " + e.getErrorCode());
+            } finally {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            }
+        }
+        return result;
+    }
+
     public List<WeightResult> getFeederData(int feeder) throws SQLException {
         Statement stmt = null;
         List<WeightResult> result = new ArrayList<WeightResult>();
         if (feeder != -1) {
             String query = "select * from watchdog.data WHERE data.device_id = ";
             query += feeder;
+            query += " AND data_desc='weight'";
             try {
                 stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    WeightResult weightResult = new WeightResult(rs.getTimestamp("updated_at"), rs.getInt("VALUE"));
+                    Timestamp ts = rs.getTimestamp("updated_at");
+                    String date = new SimpleDateFormat("MM/dd").format(ts);
+                    WeightResult weightResult = new WeightResult(date, rs.getInt("VALUE"));
                     result.add(weightResult);
+                }
+            } catch (SQLException e) {
+                System.out.println("SQLException: " + e.getMessage());
+                System.out.println("SQLState: " + e.getSQLState());
+                System.out.println("VendorError: " + e.getErrorCode());
+            } finally {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            }
+        }
+        return result;
+    }
+
+    public List<Float> getPrediction(int backpack) throws SQLException {
+        Statement stmt = null;
+        List<Float> result = new ArrayList<Float>(24);
+        if (backpack != -1) {
+            String query = "select * from watchdog.data WHERE data.device_id = ";
+            query += backpack;
+            query += " AND data_desc='prediction'";
+            try {
+                stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    Integer hour = (Integer) rs.getInt("hour");
+                    result.add(hour, rs.getFloat("VALUE"));
                 }
             } catch (SQLException e) {
                 System.out.println("SQLException: " + e.getMessage());
