@@ -14,10 +14,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="80dp"
+        android:layout_width="144dp"
         android:layout_height="80dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/dog_icon_white" />
+        android:src="@mipmap/watchdog_icon"
+        android:layout_weight="5.62"
+        android:layout_marginLeft="-20dp" />
 
     <TextView
         android:layout_width="match_parent"

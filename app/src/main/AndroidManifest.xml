@@ -10,7 +10,7 @@
         android:label="Watchdog"
         android:supportsRtl="true"
         android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme">
+        android:theme="@android:style/Theme.Black">
         <activity
             android:name=".MainActivity"
             android:label="Watchdog"
