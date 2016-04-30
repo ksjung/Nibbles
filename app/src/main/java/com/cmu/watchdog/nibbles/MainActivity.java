@@ -2,7 +2,6 @@ package com.cmu.watchdog.nibbles;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
@@ -23,7 +22,6 @@ import android.widget.ListView;
 import android.widget.TimePicker;
 
 import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
-import com.cmu.watchdog.nibbles.Fragments.SampleFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.WeightFragment;
 import com.cmu.watchdog.nibbles.Fragments.SelectPetToMonitorFragment;
@@ -32,9 +30,7 @@ import com.cmu.watchdog.nibbles.models.Command;
 import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
-import com.cmu.watchdog.nibbles.models.WeightResult;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.sql.*;
