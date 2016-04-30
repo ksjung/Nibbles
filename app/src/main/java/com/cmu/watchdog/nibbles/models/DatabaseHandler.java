@@ -119,6 +119,9 @@ public class DatabaseHandler {
                 int device_id = rs.getInt("device_id");
                 String command_desc = rs.getString("command_desc");
                 int value = rs.getInt("value");
+                if (value == -1) {
+                    continue;
+                }
                 Command command = new Command(command_id, device_id, command_desc, value);
                 commands.add(command);
                 Device d = deviceMap.get(device_id);

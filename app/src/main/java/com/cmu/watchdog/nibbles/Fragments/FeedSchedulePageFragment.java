@@ -45,8 +45,8 @@ public class FeedSchedulePageFragment extends Fragment {
             hour -= 12;
             ampm = " P.M.";
         }
-        String desc = command.getCommand_desc();
-        desc = desc.substring(desc.length() - 7);
+//        String desc = command.getCommand_desc();
+//        desc = desc.substring(desc.length() - 7);
 
 
         Pet pet = command.getPet();
