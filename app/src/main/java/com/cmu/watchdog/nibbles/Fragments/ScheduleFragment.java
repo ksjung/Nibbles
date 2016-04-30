@@ -179,7 +179,7 @@ public class ScheduleFragment extends Fragment {
                 String x = "A.M.";
                 if (hour > 12) {
                     hour -= 12;
-                    x = "P.M";
+                    x = "P.M.";
                 }
                 int device_id = commands.get(i).getDevice_id();
                 Device device = activity.getDeviceById(device_id);
