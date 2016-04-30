@@ -5,15 +5,15 @@
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/bowl"
-            android:title="Feed Menu" />
-        <item
-            android:id="@+id/nav_pets"
-            android:icon="@drawable/pet_icon"
-            android:title="My Pets" />
+            android:title="Feed Schedules" />
+        <!--<item-->
+            <!--android:id="@+id/nav_pets"-->
+            <!--android:icon="@drawable/pet_icon"-->
+            <!--android:title="My Pets" />-->
         <item
             android:id="@+id/nav_monitor"
             android:icon="@drawable/monitor_icon"
-            android:title="Pet Monitor" />
+            android:title="Activities Monitor" />
         <item
             android:id="@+id/nav_weight"
             android:icon="@drawable/ic_loyalty_24dp"
@@ -24,13 +24,13 @@
             android:title="Pet Web Cam" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-        </menu>
-    </item>
+    <!--<item android:title="Communicate">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_share"-->
+                <!--android:icon="@drawable/ic_menu_share"-->
+                <!--android:title="Share" />-->
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>

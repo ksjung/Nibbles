@@ -12,10 +12,7 @@ import android.widget.TextView;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
-import com.cmu.watchdog.nibbles.models.Command;
 import com.cmu.watchdog.nibbles.models.Pet;
-
-import java.sql.SQLException;
 
 /**
  * Created by alicesypark on 4/28/16.

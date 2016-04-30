@@ -1,8 +1,5 @@
 package com.cmu.watchdog.nibbles.models;
 
-import android.content.Context;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.sql.*;
 import java.util.ArrayList;

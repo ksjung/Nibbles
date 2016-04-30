@@ -2,7 +2,6 @@ package com.cmu.watchdog.nibbles;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
@@ -22,18 +21,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
-import com.cmu.watchdog.nibbles.Fragments.PetManagementFragment;
+import com.cmu.watchdog.nibbles.Fragments.DataFragment;
 import com.cmu.watchdog.nibbles.Fragments.ScheduleFragment;
 import com.cmu.watchdog.nibbles.Fragments.WeightFragment;
-import com.cmu.watchdog.nibbles.Fragments.SelectPetToMonitorFragment;
+//import com.cmu.watchdog.nibbles.Fragments.SelectPetToMonitorFragment;
 import com.cmu.watchdog.nibbles.Fragments.WebCamViewFragment;
 import com.cmu.watchdog.nibbles.models.Command;
 import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
-import com.cmu.watchdog.nibbles.models.WeightResult;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.sql.*;
@@ -44,8 +41,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-//    String ip = "128.237.236.199"; // raspberry pi
-//    private String ip = "128.237.187.196"; // localhost
     private String ip = "128.237.224.100";
     private String database_name = "watchdog";
     private String username = "watchdog";
@@ -66,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Schedules");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -106,6 +102,19 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         db.closeDB();
+        selectedPet = pets.get(0);
+
+        List<Device> devices = getDevices();
+        Device device = devices.get(0);
+        for (int i = 0; i < devices.size(); i++) {
+            if (devices.get(i).getPet_id() == selectedPet.getId()) {
+                selectedDevice = devices.get(i);
+                break;
+            }
+        }
+
+
+
     }
 
     public void connectPetsDevices() {
@@ -159,6 +168,7 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = new ScheduleFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
+            setTitle("Schedules");
 
             // Insert the fragment by replacing any existing fragment
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -166,19 +176,10 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.content_frame, fragment)
                     .commit();
         } else if (id == R.id.nav_monitor) {
-            Fragment fragment = new SelectPetToMonitorFragment();
+            Fragment fragment = new DataFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
-
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-        } else if (id == R.id.nav_pets) {
-            Fragment fragment = new PetManagementFragment();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
+            setTitle("Activities");
 
             // Insert the fragment by replacing any existing fragment
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = new WeightFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
-
+            setTitle("Weight");
             // Insert the fragment by replacing any existing fragment
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = new WebCamViewFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
+            setTitle("Web Cam");
 
             // Insert the fragment by replacing any existing fragment
             FragmentManager fragmentManager = getSupportFragmentManager();

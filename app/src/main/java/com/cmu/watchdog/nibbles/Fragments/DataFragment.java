@@ -16,7 +16,6 @@ import android.view.animation.AlphaAnimation;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Pet;
@@ -51,6 +50,7 @@ public class DataFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pet_data_display, container, false);
+
         name = (TextView) view.findViewById(R.id.pet_name);
         activityIcon = (ImageView) view.findViewById(R.id.activity_icon);
         activityText = (TextView) view.findViewById(R.id.activity_text);
@@ -132,12 +132,12 @@ public class DataFragment extends Fragment{
 
             //humidity
             if (result.containsKey("humidity")) {
-                humidity.setText(result.get("humidity"));
+                humidity.setText(result.get("humidity" + " %"));
             }
 
             //temperature
             if (result.containsKey("temperature")) {
-                temperature.setText(result.get("temperature"));
+                temperature.setText(result.get("temperature") + " C");
             }
         }
     }

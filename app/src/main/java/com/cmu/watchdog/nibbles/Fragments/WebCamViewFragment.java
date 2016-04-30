@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 
 /**
@@ -22,7 +23,6 @@ public class WebCamViewFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.webcam_view, container, false);
-
 //        setContentView(R.layout.webview);
 
         webView = (WebView) view.findViewById(R.id.webCamView);

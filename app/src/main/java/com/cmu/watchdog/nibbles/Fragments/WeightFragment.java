@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.WeightResult;
@@ -52,7 +51,6 @@ public class WeightFragment extends Fragment {
         db = new DatabaseHandler();
         db.connectDB();
 
-        MainActivity activity = (MainActivity) getActivity();
         if (series != null) {
             GraphView graph = (GraphView) view.findViewById(R.id.graph);
             graph.addSeries(series);
@@ -90,7 +88,6 @@ public class WeightFragment extends Fragment {
 
         @Override
         protected List<WeightResult> doInBackground(Void... params) {
-            MainActivity activity = (MainActivity) getActivity();
             List<WeightResult> result = null;
             try {
                 result = db.getFeederData(4);

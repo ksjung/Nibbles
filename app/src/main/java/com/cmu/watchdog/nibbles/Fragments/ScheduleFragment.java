@@ -3,7 +3,7 @@ package com.cmu.watchdog.nibbles.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
@@ -48,7 +49,6 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
-        MainActivity activity = (MainActivity) getActivity();
 
         ImageButton feedBtn = (ImageButton)view.findViewById(R.id.feedButton);
         feedBtnListener(feedBtn);
@@ -69,11 +69,49 @@ public class ScheduleFragment extends Fragment {
         feedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity activity = (MainActivity) getActivity();
+                Pet pet = activity.getSelectedPet();
+                List<Device> devices = activity.getDevices();
+                Device device = devices.get(0);
+                for (int i = 0; i < devices.size(); i++) {
+                    if (devices.get(i).getPet_id() == pet.getId()) {
+                        device = devices.get(i);
+                        break;
+                    }
+                }
+
+                try {
+                    db = new DatabaseHandler();
+                    db.connectDB();
+
+                    String query = String.format("INSERT INTO watchdog.commands VALUES (null, %s, 'feed now', -1, 1)", device.getDevice_id());
+                    db.sendCommand(query);
+                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    System.out.println("SENDING COMMAND");
+                    System.out.println(query);
+                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    db.closeDB();
+                    Toast toast= Toast.makeText(activity,
+                            "FED MY PET!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                } catch (SQLException e) {
+                    System.out.println("..................................");
+                    System.out.println("SQL EXCEPTION");
+                    System.out.println("..................................");
+                    e.printStackTrace();
+                    Toast toast= Toast.makeText(activity,
+                            "Could not feed the pet.\nPlease try again!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+
+//
 
 
-            frag = new FeedFragment();
-            fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
-            fragTransaction.commit();
+//                frag = new FeedFragment();
+//                fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
+//                fragTransaction.commit();
             }
         });
     }
@@ -83,7 +121,21 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                frag = new SelectPetToFeedFragment();
+//                Pet pet = activity.getPetAtIndex(position);
+//
+//                List<Device> devices = activity.getDevices();
+//                Device device = devices.get(0);
+//                for (int i = 0; i < devices.size(); i++) {
+//                    if (devices.get(i).getPet_id() == pet.getId()) {
+//                        device = devices.get(i);
+//                        break;
+//                    }
+//                }
+//
+//                activity.setSelectedPet(pet);
+//                activity.setSelectedDevice(device);
+
+                frag = new AddScheduleFragment();
                 fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
                 fragTransaction.commit();
             }
@@ -132,7 +184,7 @@ public class ScheduleFragment extends Fragment {
                 int device_id = commands.get(i).getDevice_id();
                 Device device = activity.getDeviceById(device_id);
                 Pet pet = activity.getPetById(device.getPet_id());
-                schedulesArray.add(String.format("[ %s ]  %d : %02d %s", pet.getName(), hour, minute, x));
+                schedulesArray.add(String.format("%d : %02d %s", hour, minute, x));
                 count++;
             }
         }

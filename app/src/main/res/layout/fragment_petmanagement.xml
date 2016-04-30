@@ -21,5 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/petsList"
+        android:typeface="monospace"
         android:layout_gravity="left|top" />
 </FrameLayout>

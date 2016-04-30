@@ -7,11 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -22,7 +19,7 @@ import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
 
 import java.sql.SQLException;
-import java.util.List;
+
 
 public class AddScheduleFragment extends Fragment {
     private DatabaseHandler db;
@@ -44,7 +41,6 @@ public class AddScheduleFragment extends Fragment {
     private CheckBox saturday;
     private CheckBox sunday;
 
-    private CheckBox[] days = new CheckBox[7];;
 
     private String desc = "feed ";
 
@@ -58,7 +54,7 @@ public class AddScheduleFragment extends Fragment {
         View view = inflater.inflate(R.layout.add_schedule, container, false);
 
         MainActivity activity = (MainActivity) getActivity();
-
+        activity.setTitle("Add New Schedule");
         hourPicker = (NumberPicker) view.findViewById(R.id.hourPicker);
         minutePicker = (NumberPicker) view.findViewById(R.id.minutePicker);
         ap = (TextView) view.findViewById(R.id.ampm);
@@ -66,14 +62,6 @@ public class AddScheduleFragment extends Fragment {
         hourPicker.setMinValue(1); //from array first value
         hourPicker.setMaxValue(12);
         hourPicker.setWrapSelectorWheel(true);
-
-        days[0] = (CheckBox) view.findViewById(R.id.monday);
-        days[1] = (CheckBox) view.findViewById(R.id.tuesday);
-        days[2] = (CheckBox) view.findViewById(R.id.wednesday);
-        days[3] = (CheckBox) view.findViewById(R.id.thursday);
-        days[4] = (CheckBox) view.findViewById(R.id.friday);
-        days[5] = (CheckBox) view.findViewById(R.id.saturday);
-        days[6] = (CheckBox) view.findViewById(R.id.sunday);
 
         hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -98,7 +86,7 @@ public class AddScheduleFragment extends Fragment {
         });
 
         minutePicker.setMinValue(0);
-        minutePicker.setMaxValue(60);
+        minutePicker.setMaxValue(59);
         minutePicker.setWrapSelectorWheel(true);
 
 
@@ -120,13 +108,7 @@ public class AddScheduleFragment extends Fragment {
                 }
                 int time = hour * 60 + minute;
 
-                for (int i = 0; i < days.length; i++) {
-                    if (days[i].isChecked()) {
-                        desc += "1";
-                    } else {
-                        desc += "0";
-                    }
-                }
+
 
                 MainActivity activity = (MainActivity) getActivity();
                 Pet pet = activity.getSelectedPet();
@@ -143,7 +125,7 @@ public class AddScheduleFragment extends Fragment {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
+                activity.setTitle("Schedules");
                 frag = new ScheduleFragment();
                 fragTransaction = getFragmentManager().beginTransaction().replace(R.id.content_frame, frag);
                 fragTransaction.commit();

@@ -1,6 +1,5 @@
 package com.cmu.watchdog.nibbles.models;
 
-import com.cmu.watchdog.nibbles.MainActivity;
 
 /**
  * Created by alicesypark on 4/25/16.
