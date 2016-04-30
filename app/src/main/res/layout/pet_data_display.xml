@@ -11,21 +11,15 @@
         android:layout_gravity="center_horizontal|top"
         android:background="#ffffff">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Doug"
-            android:id="@+id/pet_name"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="20dp"
-            android:textStyle="bold"
-            android:typeface="normal"
-            android:textColor="#3c3c3c" />
+
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/prediction_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/activity_icon"
             android:layout_gravity="center_horizontal" />
 

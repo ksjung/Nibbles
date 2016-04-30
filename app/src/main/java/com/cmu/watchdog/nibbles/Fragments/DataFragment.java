@@ -14,11 +14,23 @@ import android.widget.TextView;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.cmu.watchdog.nibbles.R;
 import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Pet;
+import com.cmu.watchdog.nibbles.models.WeightResult;
+
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.LineChartView;
 
 
 public class DataFragment extends Fragment{
@@ -32,6 +44,7 @@ public class DataFragment extends Fragment{
     Pet selectedPet;
     TextView temperature;
     TextView humidity;
+    LineChartView predictionChart;
 
     public DataFragment() {
 
@@ -39,7 +52,6 @@ public class DataFragment extends Fragment{
 
     @Override
     public void onDestroyView() {
-        System.out.println("in data fragment on destroy");
         backUpdate.cancel(true);
         handler.removeCallbacks(dataRunnable);
         db.closeDB();
@@ -56,6 +68,7 @@ public class DataFragment extends Fragment{
         activityText = (TextView) view.findViewById(R.id.activity_text);
         temperature = (TextView) view.findViewById(R.id.temperature_value);
         humidity = (TextView) view.findViewById(R.id.humidity_value);
+        predictionChart = (LineChartView) view.findViewById(R.id.prediction_chart);
 
         //Activity Text Animation
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
@@ -67,6 +80,51 @@ public class DataFragment extends Fragment{
 
         db = new DatabaseHandler();
         db.connectDB();
+
+
+        predictionChart.setInteractive(true);
+
+        List<PointValue> values = new ArrayList<PointValue>();
+
+        List<Float> predictions = null;
+        try {
+            predictions = db.getPrediction(3);
+
+            float min = (float) Integer.MAX_VALUE;
+            float max = (float) Integer.MIN_VALUE;
+            for (int i = 0; i < predictions.size(); i++) {
+                float accel = (float) predictions.get(i);
+                values.add(new PointValue(i, accel));
+
+                if (accel < min) {
+                    min = accel;
+                }
+                if (accel > max) {
+                    max = accel;
+                }
+            }
+
+            Line line = new Line(values);
+            line.setColor(ChartUtils.COLOR_GREEN).setCubic(true);
+
+            List<Line> lines = new ArrayList<Line>();
+            lines.add(line);
+            LineChartData lineData = new LineChartData(lines);
+            lineData.setAxisXBottom(new Axis());
+            lineData.setAxisYLeft(new Axis().setMaxLabelChars(5));
+
+            predictionChart.setLineChartData(lineData);
+            // For build-up animation you have to disable viewport recalculation.
+            predictionChart.setViewportCalculationEnabled(false);
+
+            // And set initial max viewport and current viewport- remember to set viewports after data.
+            Viewport v = new Viewport(0, max + 1, 24, min -1);
+            predictionChart.setMaximumViewport(v);
+            predictionChart.setCurrentViewport(v);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         handler.post(dataRunnable);
 
