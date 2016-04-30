@@ -2,6 +2,7 @@ package com.cmu.watchdog.nibbles;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.DialogFragment;
@@ -27,6 +28,7 @@ import com.cmu.watchdog.nibbles.Fragments.WeightFragment;
 import com.cmu.watchdog.nibbles.Fragments.SelectPetToMonitorFragment;
 import com.cmu.watchdog.nibbles.Fragments.WebCamViewFragment;
 import com.cmu.watchdog.nibbles.models.Command;
+import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Device;
 import com.cmu.watchdog.nibbles.models.Pet;
 import com.cmu.watchdog.nibbles.models.WeightResult;
@@ -91,36 +93,19 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
-        connectDB();
-    }
-
-    private void connectDB() {
+        DatabaseHandler db = new DatabaseHandler();
+        db.connectDB();
         try {
-            String url = "jdbc:mysql://" + ip + ":3306/" + database_name; // CHANGE THIS TO RPI DB
-            System.out.println("=============================" + url);
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, username, password);
-            System.out.println("------------------------------Database connection established");
-            setDevices();
-            setPets();
+            devices = db.setDevices(deviceMap);
+
+            pets = db.setPets(petMap);
             connectPetsDevices();
 
-            setCommands();
-
+            commands = db.setCommands(deviceMap);
         } catch (SQLException e) {
-            System.out.println("********SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-//            if (conn != null) {
-//                try {
-//                    conn.close();
-//                    System.out.println("Database connection terminated");
-//                } catch (Exception e) { /* ignore close errors */ }
-//            }
         }
+        db.closeDB();
     }
 
     public void connectPetsDevices() {
@@ -133,34 +118,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void setCommands() throws SQLException {
-        commands = new ArrayList<Command>();
-        String query = "SELECT * FROM watchdog.commands";
-        Statement stmt = null;
-
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-        //                Pet(String name, String gender, String type, String breed, int age, int id)
-                int command_id = rs.getInt("command_id");
-                int device_id = rs.getInt("device_id");
-                String command_desc = rs.getString("command_desc");
-                int value = rs.getInt("value");
-                Command command = new Command(command_id, device_id, command_desc, value);
-                commands.add(command);
-                Device d = deviceMap.get(device_id);
-                command.setDevice(deviceMap.get(d));
-                command.setPet(d.getPet());
-            }
-        } catch (SQLException e ) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            if (stmt != null) { stmt.close(); }
-        }
-    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -287,81 +244,7 @@ public class MainActivity extends AppCompatActivity
         return devices;
     }
 
-    public void setPets() throws SQLException {
-        pets = new ArrayList<Pet>();
-        String query = "SELECT * FROM watchdog.pet";
-        Statement stmt = null;
-
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-//                Pet(String name, String gender, String type, String breed, int age, int id)
-                String name = rs.getString("name");
-                String type = rs.getString("type");
-                String gender = rs.getString("gender");
-                String breed = rs.getString("breed");
-                int age = rs.getInt("age");
-                int id = rs.getInt("pet_id");
-                Pet pet = new Pet(name, type, gender, breed, age, id);
-                pets.add(pet);
-                petMap.put(id, pet);
-            }
-        } catch (SQLException e ) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            if (stmt != null) { stmt.close(); }
-        }
-    }
-
-    public void setDevices() throws  SQLException {
-        devices = new ArrayList<Device>();
-        String query = "select * from watchdog.device";
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-//                Device(int device_id, String name, int pet_id)
-                int device_id = rs.getInt("device_id");
-                String name = rs.getString("name");
-                int pet_id = rs.getInt("pet_id");
-                Device device = new Device(device_id, name, pet_id);
-                devices.add(device);
-                deviceMap.put(device_id, device);
-            }
-        }
-        catch (SQLException e ) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            if (stmt != null) { stmt.close(); }
-        }
-    }
-
-    public void sendCommand(String query) throws  SQLException {
-
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(query); // use 'executedUpdate' when inserting data into db
-        } catch (SQLException e ) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            if (stmt != null) { stmt.close(); }
-        }
-        return;
-    }
-
-
     public void setListView(ListView listView) throws SQLException {
-        setPets();
-
         String[] petNames = new String[pets.size()];
         for (int i = 0; i < pets.size(); i++) {
             petNames[i] = pets.get(i).getName();
@@ -371,50 +254,6 @@ public class MainActivity extends AppCompatActivity
         listView.setAdapter(adapter);
     }
 
-    public void setScheduleListView(ListView listView) throws SQLException {
-        setCommands();
-        int count = 0;
-        List<String> schedulesArray = new ArrayList<String>();
-
-        for (int i = 0; i < commands.size(); i++) {
-            int value = commands.get(i).getValue();
-            if (value != -1) {
-                int hour = value / 60;
-                int minute = value % 60;
-                String x = "A.M.";
-                if (hour > 12) {
-                    hour -= 12;
-                    x = "P.M";
-                }
-                int device_id = commands.get(i).getDevice_id();
-                Device device = getDeviceById(device_id);
-                Pet pet = getPetById(device.getPet_id());
-                schedulesArray.add(String.format("[ %s ]  %d : %02d %s", pet.getName(), hour, minute, x));
-                count++;
-            }
-        }
-        String[] schedules = new String[schedulesArray.size()];
-        schedules = schedulesArray.toArray(schedules);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, schedules);
-        listView.setAdapter(adapter);
-    }
-
-    public void addPet(String name, String type, String gender, String age, String breed) throws SQLException {
-        String template = "INSERT INTO watchdog.pet VALUES (null, '%s', '%s', '%s', %s, '%s')";
-        String query = String.format(template, name, type, gender, age, breed);
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(query); // use 'executedUpdate' when inserting data into db
-        } catch (SQLException e ) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            if (stmt != null) { stmt.close(); }
-        }
-        return;
-    }
 
     public Pet getPetAtIndex(int i) {
         return pets.get(i);
@@ -425,29 +264,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     public List<Command> getCommands() {
-        return commands;
-    }
+        DatabaseHandler db = new DatabaseHandler();
+        db.connectDB();
 
-    public void removeCommand(Command com) throws SQLException {
-        this.commands.remove(com);
-
-        String query = "DELETE FROM watchdog.commands " +
-                "WHERE command_id = " + com.getCommand_id();
-        Statement stmt = null;
         try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(query); // use 'executedUpdate' when inserting data into db
-        } catch (SQLException e ) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
+            commands = db.setCommands(deviceMap);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        setCommands();
-        System.out.println("======== removed command");
+        return commands;
     }
 
     public Pet getSelectedPet() {
@@ -475,77 +300,11 @@ public class MainActivity extends AppCompatActivity
         this.selectedDevice = selectedDevice;
     }
 
-    public List<WeightResult> getFeederData() throws SQLException {
-        Statement stmt = null;
-        int feeder = -1;
-        List<WeightResult> result = new ArrayList<WeightResult>();
-        //TODO: check for pet_id specific devices
-        for (Device device : devices) {
-            String deviceName = device.getName();
-            if (deviceName.equals("FEEDER")) {
-                feeder = device.getDevice_id();
-            }
-        }
-        if (feeder != -1) {
-            String query = "select * from watchdog.data WHERE data.device_id = ";
-            query += feeder;
-            try {
-                stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(query);
-                while (rs.next()) {
-                    WeightResult weightResult = new WeightResult(rs.getTimestamp("updated_at"), rs.getInt("VALUE"));
-                    result.add(weightResult);
-                }
-            } catch (SQLException e) {
-                System.out.println("SQLException: " + e.getMessage());
-                System.out.println("SQLState: " + e.getSQLState());
-                System.out.println("VendorError: " + e.getErrorCode());
-            } finally {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            }
-        }
-        return result;
-    }
-
-    public Map<String, String> getBackpackData() throws SQLException {
-        Statement stmt = null;
-        Map<String, String> result = new HashMap<String, String>();
-        int backpack = -1;
-        //TODO: check for pet_id specific devices
-        for (Device device : devices) {
-            String deviceName = device.getName();
-            if (deviceName.equals("BACKPACK")) {
-                backpack = device.getDevice_id();
-            }
-        }
-        if (backpack != -1) {
-            String query = "select * from watchdog.data WHERE data.device_id = ";
-            query += backpack;
-            query += " AND (data_desc = 'activity' OR data_desc = 'temperature' OR data_desc = 'humidity')";
-            try {
-                stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(query);
-                while (rs.next()) {
-                    result.put(rs.getString("data_desc"), rs.getString("VALUE"));
-                }
-            } catch (SQLException e ) {
-                System.out.println("SQLException: " + e.getMessage());
-                System.out.println("SQLState: " + e.getSQLState());
-                System.out.println("VendorError: " + e.getErrorCode());
-            } finally {
-                if (stmt != null) { stmt.close(); }
-            }
-        }
-        return result;
-    }
-
-    private Device getDeviceById(int id) {
+    public Device getDeviceById(int id) {
         return deviceMap.get(id);
     }
 
-    private Pet getPetById(int id) {
+    public Pet getPetById(int id) {
         return petMap.get(id);
     }
 

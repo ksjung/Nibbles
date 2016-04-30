@@ -18,10 +18,12 @@ import java.util.Map;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 import com.cmu.watchdog.nibbles.models.Pet;
 
 
 public class DataFragment extends Fragment{
+    private DatabaseHandler db;
     UpdateBack backUpdate;
     Handler handler = new Handler();
 
@@ -41,6 +43,7 @@ public class DataFragment extends Fragment{
         System.out.println("in data fragment on destroy");
         backUpdate.cancel(true);
         handler.removeCallbacks(dataRunnable);
+        db.closeDB();
         super.onDestroyView();
     }
 
@@ -61,6 +64,9 @@ public class DataFragment extends Fragment{
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(Animation.INFINITE);
         activityText.startAnimation(anim);
+
+        db = new DatabaseHandler();
+        db.connectDB();
 
         handler.post(dataRunnable);
 
@@ -84,11 +90,9 @@ public class DataFragment extends Fragment{
 
         @Override
         protected Map<String, String> doInBackground(Void... params) {
-            MainActivity activity = (MainActivity) getActivity();
             Map<String, String> result = null;
-            System.out.println("in data fragment");
             try {
-                result = activity.getBackpackData();
+                result = db.getBackpackData(3);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

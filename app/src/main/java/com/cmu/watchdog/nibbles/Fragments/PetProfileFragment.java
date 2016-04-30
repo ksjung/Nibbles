@@ -33,7 +33,7 @@ public class PetProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.pet_profile, container, false);
 
         activity = (MainActivity) getActivity();
-
+/*
         int feed_time = command.getValue();
         int hour = feed_time / 60;
         int minute = feed_time % 60;
@@ -100,7 +100,7 @@ public class PetProfileFragment extends Fragment {
                 fragTransaction.commit();
             }
         });
-
+*/
         return view;
 
     }

@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 
 import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
+import com.cmu.watchdog.nibbles.models.DatabaseHandler;
 
 import java.sql.SQLException;
 
@@ -21,7 +22,7 @@ import java.sql.SQLException;
  * Created by Alice on 4/5/16.
  */
 public class AddPetFragment extends Fragment {
-
+    private DatabaseHandler db;
     ImageButton addBtn;
     EditText name;
     EditText breed;
@@ -35,11 +36,13 @@ public class AddPetFragment extends Fragment {
     public AddPetFragment() {
 
     }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_pet, container, false);
+
+        db = new DatabaseHandler();
+        db.connectDB();
 
         addBtn = (ImageButton)view.findViewById(R.id.submit_button);
 
@@ -74,7 +77,10 @@ public class AddPetFragment extends Fragment {
 
                 MainActivity activity = (MainActivity) getActivity();
                 try {
-                    activity.addPet(nameStr, typeStr, genderStr, ageStr, breedStr);
+                    db = new DatabaseHandler();
+                    db.connectDB();
+                    db.addPet(nameStr, typeStr, genderStr, ageStr, breedStr);
+                    db.closeDB();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
