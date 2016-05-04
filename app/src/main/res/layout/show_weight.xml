@@ -15,5 +15,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="Current Weight"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="25dp"
+        android:textStyle="bold" />
 </LinearLayout>

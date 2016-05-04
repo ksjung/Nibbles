@@ -163,7 +163,7 @@ public class WeightFragment extends Fragment{
                 weightText.setText("Weight unavailable");
             }
             else {
-                weightText.setText(result.toString() + " gs");
+                weightText.setText(result.toString() + " g");
             }
         }
     }
@@ -172,7 +172,7 @@ public class WeightFragment extends Fragment{
 
         @Override
         public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            Toast.makeText(getActivity(), "Weight: " + value.getY() + "gs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Weight: " + value.getY() + "g", Toast.LENGTH_SHORT).show();
         }
 
         @Override

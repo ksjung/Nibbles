@@ -204,7 +204,7 @@ public class DatabaseHandler {
         if (feeder != -1) {
             String query = "select * from watchdog.data WHERE data.device_id = ";
             query += feeder;
-            query += " AND data.data_desc = 'weight-now'";
+            query += " AND data.data_desc = 'weight-now' order by data_id desc limit 13";
             try {
                 stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
