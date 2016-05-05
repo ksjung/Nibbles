@@ -15,7 +15,7 @@ public class Pet {
     private int id;
     private Map<Integer, Device> devices;
 
-    public Pet(String name, String gender, String type, String breed, int age, int id) {
+    public Pet(String name, String type, String gender, String breed, int age, int id) {
         this.name = name;
         this.gender = gender;
         this.type = type;
@@ -37,8 +37,8 @@ public class Pet {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGender(String g) {
+        this.gender = g;
     }
 
     public String getType() {
@@ -92,6 +92,6 @@ public class Pet {
 
     @Override
     public String toString() {
-        return "Pet Name : " + name;
+        return "Pet Name : " + name + "---- ID : " + id;
     }
 }

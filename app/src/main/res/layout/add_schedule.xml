@@ -64,7 +64,7 @@
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
             android:background="@android:color/transparent"
-            android:src="@drawable/bwdone"
+            android:src="@drawable/done_button"
             android:layout_marginTop="80dp" />
 
     </LinearLayout>

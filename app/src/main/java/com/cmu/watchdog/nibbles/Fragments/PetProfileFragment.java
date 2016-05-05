@@ -14,6 +14,8 @@ import com.cmu.watchdog.nibbles.MainActivity;
 import com.cmu.watchdog.nibbles.R;
 import com.cmu.watchdog.nibbles.models.Pet;
 
+import java.sql.SQLException;
+
 /**
  * Created by alicesypark on 4/28/16.
  */
@@ -28,6 +30,9 @@ public class PetProfileFragment extends Fragment {
     private Button editButton;
 
     private TextView pet_text;
+    private TextView breed;
+    private TextView age;
+    private TextView gender;
 
     private Pet pet;
 
@@ -40,9 +45,18 @@ public class PetProfileFragment extends Fragment {
 
         delButton = (Button) view.findViewById(R.id.del_button);
         pet_text = (TextView) view.findViewById(R.id.pet_name);
+        breed = (TextView) view.findViewById(R.id.breed);
+        age = (TextView) view.findViewById(R.id.pet_age);
+        gender = (TextView) view.findViewById(R.id.pet_gender);
+
         pet = activity.getSelectedPet();
 
         pet_text.setText(pet.getName());
+        age.setText(String.format("%d years old", pet.getAge()));
+        breed.setText(pet.getBreed());
+        System.out.println("pet gender is =========== " + pet.getGender());
+        gender.setText(pet.getGender());
+
 //        delButtonClicker();
 
 //
@@ -51,7 +65,7 @@ public class PetProfileFragment extends Fragment {
 //            @Override
 //            public void onClick(View v) {
 //                try {
-//                    activity.removeCommand(command);
+//                    activity.removePet(pet);
 //                } catch (SQLException e) {
 //                    e.printStackTrace();
 //                }

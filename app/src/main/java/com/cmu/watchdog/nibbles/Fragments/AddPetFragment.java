@@ -87,6 +87,7 @@ public class AddPetFragment extends Fragment {
                     db.connectDB();
                     db.addPet(nameStr, typeStr, genderStr, ageStr, breedStr);
                     db.closeDB();
+                    activity.setPets();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

@@ -92,6 +92,7 @@ public class DatabaseHandler {
                 int age = rs.getInt("age");
                 int id = rs.getInt("pet_id");
                 Pet pet = new Pet(name, type, gender, breed, age, id);
+                System.out.println(pet.toString());
                 pets.add(pet);
                 petMap.put(id, pet);
             }
@@ -169,6 +170,7 @@ public class DatabaseHandler {
         try {
             stmt = conn.createStatement();
             stmt.executeUpdate(query); // use 'executedUpdate' when inserting data into db
+            System.out.println("ADDED PET");
         } catch (SQLException e ) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());

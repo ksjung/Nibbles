@@ -6,14 +6,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/whitedog"
-        android:label="Watchdog"
+        android:icon="@drawable/nibbles_logo"
+        android:label="Nibbles"
         android:supportsRtl="true"
         android:layout_gravity="center_horizontal"
-        android:theme="@android:style/Theme.Black">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="Watchdog"
+            android:label="Nibbles"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

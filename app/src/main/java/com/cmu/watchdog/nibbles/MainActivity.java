@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 
@@ -59,11 +60,12 @@ public class MainActivity extends AppCompatActivity
     private Pet selectedPet;
     private Device selectedDevice;
     private Command selectedCommand;
+    DatabaseHandler db = new DatabaseHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Schedules");
+        setTitle("My Pets");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment fragment = new ScheduleFragment();
+        Fragment fragment = new PetManagementFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
 
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
-        DatabaseHandler db = new DatabaseHandler();
+
         db.connectDB();
         try {
             devices = db.setDevices(deviceMap);
@@ -198,6 +200,16 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();
+        } else if (id == R.id.nav_pets) {
+            Fragment fragment = new PetManagementFragment();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            setTitle("My Pets");
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
         } else if (id == R.id.nav_web_view) {
             Fragment fragment = new WebCamViewFragment();
             Bundle args = new Bundle();
@@ -212,6 +224,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -239,6 +252,9 @@ public class MainActivity extends AppCompatActivity
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    public void setPets() throws SQLException {
+        db.setPets(petMap);
+    }
 
     public List<Pet> getPets() {
         return pets;
@@ -280,6 +296,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     public Pet getSelectedPet() {
+        if (selectedPet != null) {
+            TextView logoTitle = (TextView) findViewById(R.id.nibbles_logo);
+            logoTitle.setText(selectedPet.getName());
+        }
         return selectedPet;
     }
 
@@ -312,5 +332,8 @@ public class MainActivity extends AppCompatActivity
         return petMap.get(id);
     }
 
+    public void removePet(Pet p) {
+
+    }
 
 }

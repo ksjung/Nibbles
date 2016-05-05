@@ -69,7 +69,7 @@ public class PetManagementFragment extends Fragment {
                 Pet pet = activity.getPetAtIndex(position);
 
                 activity.setSelectedPet(pet);
-
+                activity.setTitle(pet.getName());
                 Fragment frag;
                 FragmentTransaction fragTransaction;
 
